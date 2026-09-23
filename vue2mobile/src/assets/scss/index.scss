@@ -1,0 +1,16 @@
+@import './flex.scss';
+@import './mixin.scss';
+@import './reset-vant.scss'; // 重置vant的样式
+@import './comm.scss'; // 公共的样式
+
+// 背景色
+$bg-color: #f7f7f7;
+// 灰色
+$ft-gray-1: #5c5c5c;
+$ft-gray-2: #999999;
+$ft-gray-3: #595959;
+$ft-gray-4: #9e9e9e;
+// 绿色
+$ft-green-1: #3dc48a;
+// 黑色
+$ft-black-1: #141414;

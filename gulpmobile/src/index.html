@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="renderer" content="webkit" />
+        <title>test</title>
+        <script>
+            !(function (e, t) {
+                var n = t.documentElement,
+                    d = e.devicePixelRatio || 1;
+
+                function i() {
+                    var w =
+                        n.clientWidth > n.clientHeight
+                            ? n.clientHeight
+                            : n.clientWidth;
+                    var CW = w < 320 ? 320 : w;
+                    var e = CW / 7.5;
+                    n.style.fontSize = e + 'px';
+                }
+                if (
+                    ((function e() {
+                        t.body
+                            ? (t.body.style.fontSize = '16px')
+                            : t.addEventListener('DOMContentLoaded', e);
+                    })(),
+                    i(),
+                    e.addEventListener('resize', i),
+                    e.addEventListener('pageshow', function (e) {
+                        e.persisted && i();
+                    }),
+                    d >= 2)
+                ) {
+                    var o = t.createElement('body'),
+                        a = t.createElement('div');
+                    (a.style.border = '.5px solid transparent'),
+                        o.appendChild(a),
+                        n.appendChild(o),
+                        1 === a.offsetHeight && n.classList.add('hairlines'),
+                        n.removeChild(o);
+                }
+            })(window, document);
+        </script>
+        <link rel="stylesheet" href="./assets/css/common.css" />
+        <link rel="stylesheet" href="./assets/css/index.css" />
+    </head>
+
+    <body>
+        <button id="test">测试按钮99</button>
+        <div class="m-a1"></div>
+        <script src="/public/a.js"></script>
+        <script src="/public/assets/b.js"></script>
+        <script src="/assets/js/test.js"></script>
+        <script src="//static.tcy365.com/cdn/zepto/1.2.0/zepto.min.js"></script>
+        <script
+            src="//static.tcy365.com/cdn/require/2.1.22/require.min.js"
+            data-main="./assets/js/app/main.js"
+        ></script>
+    </body>
+</html>

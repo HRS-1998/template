@@ -1,0 +1,28 @@
+.paycomfirm-container {
+    text-align: center;
+    .paycomfirm__tip {
+        font-size: 30px;
+        color: #646566;
+        line-height: 40px;
+        padding: 20px 0 40px;
+        width: 90%;
+        margin: 0 auto;
+    }
+    .van-dialog__header {
+        font-size: 17px;
+        color: #222222;
+    }
+    // 取消按钮
+    .van-dialog__cancel {
+        color: #888888;
+        font-size: 15px;
+    }
+    // 确认按钮
+    .van-dialog__confirm {
+        color: #f4691b;
+        font-size: 15px;
+    }
+    .van-button::before {
+        background-color: #e2e1e1;
+    }
+}

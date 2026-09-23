@@ -1,0 +1,1 @@
+!function(e,n){"object"==typeof exports&&"undefined"!=typeof module?module.exports=n():"function"==typeof define&&define.amd?define(n):(e="undefined"!=typeof globalThis?globalThis:e||self).sdk=n()}(this,(function(){"use strict";var e=2;return{a:1,aa:function(){return 1+e}}}));

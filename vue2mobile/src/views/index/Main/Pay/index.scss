@@ -1,0 +1,101 @@
+$w: 600px; //680px;
+$w-1: 540px; // 600px
+$f-header: 30px; // 30px;
+$f-1: 26px; // 28px;
+$f-2: 28px; // 26px
+.pay-container {
+    background: transparent;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -45%);
+    .pay {
+        margin: 0 auto;
+        width: $w;
+        background: #ececf0;
+        border-radius: 12px;
+    }
+    .pay {
+        &__header {
+            position: relative;
+            height: 89px;
+            line-height: 89px;
+            text-align: center;
+            color: #222222;
+            font-size: $f-header;
+        }
+        &__info {
+            margin: 0 auto;
+            width: $w-1;
+            font-size: $f-1;
+            color: #222222;
+            &--row {
+                height: 70px;
+                line-height: 70px;
+            }
+            &--goods {
+                position: relative;
+                width: 520px;
+                @include ellipsis();
+                &:after {
+                    @include border-1px(#e2e1e1, top);
+                }
+            }
+            &--price {
+                color: #fb2944;
+            }
+        }
+        &__payway {
+            position: relative;
+            margin: 0 auto;
+            padding: 10px 0;
+            width: $w-1;
+            font-size: $f-1;
+            color: #222222;
+            &__title {
+                margin-bottom: 10px;
+                font-size: $f-2;
+                color: #888888;
+            }
+            &__row {
+                @include flex;
+                @include flex-start;
+                height: 89px;
+                position: relative;
+                span {
+                    @include flexItem(1);
+                }
+                .icon {
+                    &--recommend {
+                        width: 15px;
+                        width: 86px;
+                        vertical-align: middle;
+                        margin-left: 20px;
+                        margin-top: -6px;
+                    }
+                    &--pay {
+                        margin-right: 15px;
+                        width: 60px;
+                        height: 60px;
+                    }
+                    &--right {
+                        width: 15px;
+                        right: 0;
+                    }
+                }
+            }
+        }
+        &__tip {
+            margin: 0 auto;
+            width: $w-1;
+            font-size: 20px;
+            color: #959595;
+            padding: 20px 0 25px;
+            text-align: center;
+            position: relative;
+            &:after {
+                @include border-1px(#e2e1e1, top);
+            }
+        }
+    }
+}

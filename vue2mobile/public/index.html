@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>移动ts模板</title>
+    <meta content="telephone=no,email=no" name="format-detection" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1, minimum-scale=1" />
+    <meta
+      name="vertime"
+      content="<%=new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()%>"
+    />
+    <link rel="shortcut icon" href="//static.tcy365.com/uc/common/images/favicon.ico" />
+    <script>
+      !(function (e, t) {
+        var n = t.documentElement,
+          d = e.devicePixelRatio || 1;
+
+        function i() {
+          var w = n.clientWidth > n.clientHeight ? n.clientHeight : n.clientWidth;
+          var CW = w < 320 ? 320 : w;
+          var e = CW / 7.5;
+          n.style.fontSize = e + 'px';
+        }
+        if (
+          ((function e() {
+            t.body ? (t.body.style.fontSize = '16px') : t.addEventListener('DOMContentLoaded', e);
+          })(),
+          i(),
+          e.addEventListener('resize', i),
+          e.addEventListener('pageshow', function (e) {
+            e.persisted && i();
+          }),
+          d >= 2)
+        ) {
+          var o = t.createElement('body'),
+            a = t.createElement('div');
+          (a.style.border = '.5px solid transparent'),
+            o.appendChild(a),
+            n.appendChild(o),
+            1 === a.offsetHeight && n.classList.add('hairlines'),
+            n.removeChild(o);
+        }
+      })(window, document);
+    </script>
+  </head>
+
+  <body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <!-- 代码调试(非正式环境) start -->
+    <% if(process.env.VUE_APP_ENV !=="production" ) { %>
+    <script src="//static.tcy365.com/cdn/eruda/1.5.4/eruda.js"></script>
+    <script>
+      eruda.init();
+    </script>
+    <% } %>
+  </body>
+</html>

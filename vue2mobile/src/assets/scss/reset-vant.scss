@@ -1,0 +1,50 @@
+.van-toast {
+  background: transparent !important;
+  z-index: 9999 !important;
+  top: 40%;
+  .van-toast__icon {
+    font-size: 1.5rem;
+  }
+  word-break: keep-all !important;
+  &--html {
+    background: rgba(0, 0, 0, .7) !important;
+  }
+}
+
+.notice-toast {
+  width: max-content !important;
+  word-break: break-all !important;
+}
+
+/*解决ios小屏幕显示不全的问题*/
+@media screen and (max-width: 320px) {
+  .van-toast {
+    max-width: 90%;
+  }
+}
+
+.van-toast__loading {
+  color: #3dc48a !important;
+}
+
+.van-loading__spinner {
+  width: 80px;
+  height: 80px;
+}
+
+.van-field__label {
+  width: 70px;
+}
+
+.van-dialog__confirm,
+.van-dialog__confirm:active {
+  color: #3dc48a;
+}
+
+.van-overlay {
+  background-color: rgba(0, 0, 0, .5);
+}
+
+.van-popup__close-icon {
+  color: #000;
+}

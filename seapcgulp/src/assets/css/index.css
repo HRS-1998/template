@@ -1,0 +1,11 @@
+.m-a1 {
+  margin: 0 auto;
+  font-size: 20px;
+  width: 750px;
+  height: 650px;
+  display: flex;
+  padding-top: 20px;
+  background: url("../img/pk.gif");
+  position: relative;
+  overflow: hidden;
+}
