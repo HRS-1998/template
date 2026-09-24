@@ -1,0 +1,386 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>社交登录示例</title>
+    <style>
+      /* 通用样式 */
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .social-section {
+        margin-bottom: 30px;
+        padding: 20px;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+      }
+      .status {
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 4px;
+      }
+      .status.success {
+        background-color: #d4edda;
+        color: #155724;
+      }
+      .status.error {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+      .status.info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      #loading {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+
+    <!-- Google 登录 SDK -->
+    <script
+      src="https://accounts.google.com/gsi/client"
+      onload="onGoogleSDKLoad()"
+      onerror="onGoogleSDKError()"
+      async
+      defer
+    ></script>
+    <script
+      async
+      defer
+      crossorigin="anonymous"
+      src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0&appId=1549405732353520"
+      onload="onFacebookSDKLoad()"
+      onerror="onFacebookSDKError()"
+    ></script>
+
+    <script>
+      // 全局应用状态管理
+      const appState = {
+        isLoading: false,
+        googleCredential: null,
+        facebookAccessToken: null,
+      };
+
+      // 工具函数
+      function showLoading() {
+        appState.isLoading = true;
+        document.getElementById('loading').style.display = 'flex';
+      }
+
+      function hideLoading() {
+        appState.isLoading = false;
+        document.getElementById('loading').style.display = 'none';
+      }
+
+      function showMessage(elementId, message, type = 'info') {
+        const element = document.getElementById(elementId);
+        if (element) {
+          element.innerHTML = message;
+          element.className = `status ${type}`;
+        }
+      }
+
+      function clearMessage(elementId) {
+        const element = document.getElementById(elementId);
+        if (element) {
+          element.innerHTML = '';
+          element.className = 'status';
+        }
+      }
+
+      function validateToken(token) {
+        if (!token) return false;
+        try {
+          const payload = parseJwt(token);
+          // 检查token是否过期
+          if (payload.exp && payload.exp * 1000 < Date.now()) {
+            console.warn('Token已过期');
+            return false;
+          }
+          return true;
+        } catch (error) {
+          console.error('Token验证失败:', error);
+          return false;
+        }
+      }
+
+      function parseJwt(token) {
+        try {
+          const base64Url = token.split('.')[1];
+          const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+          const jsonPayload = decodeURIComponent(
+            atob(base64)
+              .split('')
+              .map(function (c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+              })
+              .join('')
+          );
+          return JSON.parse(jsonPayload);
+        } catch (e) {
+          console.error('解析JWT时出错:', e);
+          return {};
+        }
+      }
+
+      // Facebook 登录功能
+      window.fbAsyncInit = function () {
+        try {
+          FB.init({
+            appId: '1549405732353520',
+            cookie: true,
+            xfbml: true,
+            version: 'v19.0', // 使用与SDK加载相同的版本
+          });
+
+          // 检查登录状态
+          FB.getLoginStatus(function (response) {
+            statusChangeCallback(response);
+          });
+        } catch (error) {
+          console.error('Facebook SDK初始化失败:', error);
+          showMessage('status', 'Facebook SDK初始化失败', 'error');
+        }
+      };
+
+      function statusChangeCallback(response) {
+        console.log('Facebook登录状态:', response);
+
+        if (response.status === 'connected') {
+          // 用户已登录并已授权应用
+          appState.facebookAccessToken = response.authResponse.accessToken;
+          document.getElementById('loginBtn').style.display = 'none';
+          document.getElementById('logoutBtn').style.display = 'block';
+          showMessage('status', '已登录 Facebook', 'success');
+        } else {
+          // 用户未登录
+          appState.facebookAccessToken = null;
+          document.getElementById('loginBtn').style.display = 'block';
+          document.getElementById('logoutBtn').style.display = 'none';
+          showMessage('status', '未登录 Facebook', 'info');
+        }
+        hideLoading();
+      }
+
+      function login() {
+        showLoading();
+        clearMessage('status');
+
+        FB.login(
+          function (response) {
+            console.log('Facebook登录响应:', response);
+
+            if (response.authResponse) {
+              statusChangeCallback(response);
+            } else if (response.error) {
+              console.error('Facebook登录错误:', response.error);
+              showMessage(
+                'status',
+                `Facebook登录失败: ${response.error.message}`,
+                'error'
+              );
+              hideLoading();
+            } else {
+              console.log('Facebook登录取消或失败');
+              showMessage('status', 'Facebook登录失败或被取消', 'error');
+              hideLoading();
+            }
+          },
+          { scope: 'public_profile,email' }
+        );
+      }
+
+      function logout() {
+        showLoading();
+        clearMessage('status');
+
+        FB.logout(function (response) {
+          statusChangeCallback(response);
+        });
+      }
+
+      // Google 登录相关函数
+      function handleGoogleLogin(response) {
+        showLoading();
+        clearMessage('googleStatus');
+
+        console.log('Google 登录响应:', response);
+
+        if (response.credential) {
+          if (validateToken(response.credential)) {
+            appState.googleCredential = response.credential;
+            const profile = parseJwt(response.credential);
+            document.getElementById('googleSignInDiv').style.display = 'none';
+            document.getElementById('googleLogoutBtn').style.display = 'block';
+            console.log('googleSignInDiv', profile);
+            showMessage(
+              'googleStatus',
+              `已登录 Google: ${profile.name}`,
+              'success'
+            );
+          } else {
+            console.error('Google Token验证失败');
+            showMessage('googleStatus', 'Google登录失败: Token无效', 'error');
+          }
+        } else if (response.error) {
+          console.error('Google登录错误:', response.error);
+          showMessage(
+            'googleStatus',
+            `Google登录失败: ${response.error.message}`,
+            'error'
+          );
+        } else {
+          console.log('Google登录失败');
+          showMessage('googleStatus', 'Google登录失败', 'error');
+        }
+        hideLoading();
+      }
+
+      function handleGoogleLogout() {
+        try {
+          // 清除Google登录状态
+          google.accounts.id.disableAutoSelect();
+          // 清除本地存储的凭证
+          appState.googleCredential = null;
+          // 更新UI
+          document.getElementById('googleSignInDiv').style.display = 'block';
+          document.getElementById('googleLogoutBtn').style.display = 'none';
+          showMessage('googleStatus', '已登出 Google', 'info');
+        } catch (error) {
+          console.error('Google登出失败:', error);
+          showMessage('googleStatus', 'Google登出失败', 'error');
+        }
+      }
+
+      // SDK 加载事件处理
+      function onFacebookSDKLoad() {
+        console.log('Facebook SDK加载成功');
+      }
+
+      function onFacebookSDKError() {
+        console.error('Facebook SDK加载失败');
+        showMessage('status', 'Facebook登录功能不可用', 'error');
+      }
+
+      function onGoogleSDKLoad() {
+        console.log('Google SDK加载成功');
+        try {
+          google.accounts.id.initialize({
+            client_id:
+              '1086228825399-dq77cs9iq6fesqmg5og2fa6b3hgjeio2.apps.googleusercontent.com',
+            callback: handleGoogleLogin,
+            auto_select: false,
+            cancel_on_tap_outside: true,
+          });
+
+          google.accounts.id.renderButton(
+            document.getElementById('googleSignInDiv'),
+            {
+              theme: 'outline',
+              size: 'large',
+              width: 250,
+            }
+          );
+        } catch (e) {
+          console.error('初始化Google登录失败:', e);
+          showMessage('googleStatus', 'Google登录初始化失败', 'error');
+        }
+      }
+
+      function onGoogleSDKError() {
+        console.error('Google SDK加载失败');
+        showMessage('googleStatus', 'Google登录功能不可用', 'error');
+      }
+
+      // 页面加载完成后的初始化
+      window.addEventListener('load', function () {
+        console.log('页面加载完成，初始化应用');
+        // 隐藏加载状态（如果显示）
+        hideLoading();
+
+        // 添加页面卸载时的清理操作
+        window.addEventListener('beforeunload', function () {
+          // 清理资源
+          appState.googleCredential = null;
+          appState.facebookAccessToken = null;
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Facebook登录</h1>
+    <div id="status" class="status info">检查登录状态...</div>
+    <!-- 自定义登录按钮 -->
+    <button id="loginBtn" onclick="login();" aria-label="登录Facebook">
+      登录
+    </button>
+    <button
+      id="logoutBtn"
+      onclick="logout();"
+      style="display: none"
+      aria-label="登出Facebook"
+    >
+      登出
+    </button>
+
+    <hr />
+
+    <h1>Google登录</h1>
+    <div id="googleStatus" class="status info">未登录 Google</div>
+    <div id="googleSignInDiv"></div>
+    <button
+      id="googleLogoutBtn"
+      onclick="handleGoogleLogout();"
+      style="display: none"
+      aria-label="登出Google"
+    >
+      登出Google
+    </button>
+
+    <!-- 加载指示器 -->
+    <div id="loading" style="display: none">
+      <div style="text-align: center">
+        <div
+          style="
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+          "
+        ></div>
+        <div>处理中...</div>
+      </div>
+    </div>
+  </body>
+</html>

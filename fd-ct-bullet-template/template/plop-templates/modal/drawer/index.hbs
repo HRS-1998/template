@@ -1,0 +1,113 @@
+<template>
+  <DrawerMode
+    v-model="status"
+    size="50%"
+    title="{{title}}"
+    :confirmLoading="confirmLoading"
+    @closed="onClosed"
+    @confirm="onSubmit"
+  >
+    <el-form :label-width="100" :model="formData" ref="formRef" :rules="formRules">
+      <el-form-item label="Id">
+        <dart-input
+          v-model="formData.Id"
+          input-type="integer1"
+          placeholder="只能输入正整数"
+          clearable
+          :maxlength="6"
+        />
+      </el-form-item>
+      <el-form-item label="类型" prop="Type">
+        <el-select
+          v-model="formData.Type"
+          clearable
+          filterable
+          :empty-values="['', 0, null, undefined]"
+        >
+          <el-option v-for="item in list" :key="item.Id" :label="item.Name" :value="item.Id" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="多选">
+        <el-checkbox-group v-model="formData.Checks">
+          <el-checkbox label="Option A" value="Value A" />
+          <el-checkbox label="Option B" value="Value B" />
+        </el-checkbox-group>
+      </el-form-item>
+      <el-form-item label="备注" prop="Remark">
+        <dart-input
+          v-model="formData.Remark"
+          type="textarea"
+          trim
+          placeholder="多个值之间用,隔开"
+          maxlength="500"
+          show-word-limit
+          :autosize="{ minRows: 5, maxRows: 10 }"
+        />
+      </el-form-item>
+    </el-form>
+  </DrawerMode>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+import DrawerMode from '@/components/DrawerMode.vue';
+import { api{{properCase name}}Submit } from '@/api/{{camelCase mainName}}';
+import type { ResponseInfo } from '@/types/common';
+import type { Type{{properCase name}}{{properCase modalType}} } from '@/types/{{camelCase mainName}}';
+import { showMessage, to } from '@/utils/index';
+import { cloneDeep } from 'lodash-es';
+import { ErrorCheckTip } from '@/config/index';
+import Bus from '@/assets/js/bus';
+import useCommon from '@/hooks/use-common';
+
+const { router } = useCommon();
+const status = ref(true); // 抽屉开关状态
+const confirmLoading = ref(false);
+const formRef = ref();
+const formData = ref<Type{{properCase name}}{{properCase modalType}}>({
+  Id: '',
+  Type: '',
+  Checks: [],
+  Remark: ''
+});
+const formRules: Record<string, any> = {
+  Type: [{ required: true, message: '必填', trigger: 'change' }]
+};
+const list = [{ Id: '配置值', Name: 'ConfigValue' }];
+
+const onSubmit = () => {
+  if (!formRef.value) return;
+  formRef.value.validate(async (valid: boolean) => {
+    if (!valid) {
+      showMessage(ErrorCheckTip);
+      return;
+    }
+    confirmLoading.value = true;
+
+    const _form = cloneDeep(formData.value);
+    const [err, res] = await to<ResponseInfo>(api{{properCase name}}Submit(_form)).finally(() => {
+      confirmLoading.value = false;
+    });
+    
+    if (err) return;
+    const { code } = res!;
+
+    if (code) return;
+    showMessage(`修改成功！`, 'success');
+    {{#if (isBoole childName)}}
+    Bus.emit('ut-{{lowerCase childName}}-refresh')
+    {{else}}
+    Bus.emit('ut-refresh')
+    {{/if}}
+  });
+};
+
+const onClosed = (): void => {
+  {{#if (isBoole childName)}}
+  router.push({name: '{{camelCase mainName}}{{properCase childName}}' });
+  {{else}}
+  router.push({name: '{{camelCase mainName}}' });
+  {{/if}}
+};
+
+</script>

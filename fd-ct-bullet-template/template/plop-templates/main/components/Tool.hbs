@@ -1,0 +1,55 @@
+<template>
+  <el-row class="mb10">
+    <el-col :span="24" class="tr">
+      {{#if (isIncludes tool 'export')}}
+      <el-button plain icon="Download" @click="onExport" v-if="$dart.permission.is('{{camelCase name}}Edit')"> 
+        导出 
+      </el-button>
+      {{/if}}
+      {{#if (isIncludes tool 'add')}}
+      <el-button plain icon="Plus" @click="onAdd" v-if="$dart.permission.is('{{camelCase name}}Edit')"> 
+        新增 
+      </el-button>
+      {{/if}}
+    </el-col>
+  </el-row>
+  {{#if ( isEqual comType 'Dialog')}}
+  <Add v-model="dialogVisible" />
+  {{/if}}
+</template>
+
+<script lang="ts" setup>
+{{#if ( isEqual comType 'Dialog')}}
+import { ref } from 'vue';
+import Add from './Add.vue';
+{{/if}}
+import useCommon from '@/hooks/use-common';
+{{#if (isIncludes tool 'export')}}
+import { apiExport } from '@/api/{{camelCase name}}';
+
+const props = defineProps<{
+  data: any;
+}>();
+{{/if}}
+const { $dart{{#if (isAnd (isEqual comType 'Drawer') (isIncludes tool 'add'))}}, router{{/if}} } = useCommon();
+{{#if ( isEqual comType 'Dialog')}}
+const dialogVisible = ref(false);
+{{/if}}
+{{#if (isIncludes tool 'add')}}
+
+const onAdd = () => {
+  {{#if ( isEqual comType 'Dialog')}}
+  dialogVisible.value = true;
+  {{/if}}
+  {{#if ( isEqual comType 'Drawer')}}
+  router.push({ name: '{{camelCase name}}Add' });
+  {{/if}}
+};
+{{/if}}
+{{#if (isIncludes tool 'export')}}
+
+const onExport = () => {
+  window.open(apiExport(props.data))
+};
+{{/if}}
+</script>

@@ -1,0 +1,23 @@
+
+const {{camelCase name}} = {
+  getList: '/api/getList',
+  {{#if (isIncludes table 'edit')}}
+  edit: '/api/edit',
+  {{/if}}
+  {{#if (isOr (isIncludes table 'edit') (isIncludes table 'view'))}}
+  getInfo: '/api/getInfo',
+  {{/if}}
+  {{#if (isIncludes tool 'add')}}
+  add: '/api/add',
+  {{/if}}
+  {{#if (isIncludes table 'delete')}}
+  delete: '/api/delete',
+  {{/if}}
+  {{#if (isIncludes table 'enable')}}
+  changeStatus: '/api/changeStatus',
+  {{/if}}
+  {{#if (isIncludes tool 'export')}}
+  export: '/api/export'
+  {{/if}}
+};
+export const {{camelCase name}}Api = getApi({{camelCase name}});

@@ -1,0 +1,104 @@
+<template>
+  <DialogMode
+    v-model="status"
+    width="60%"
+    :title="title"
+    :confirmLoading="confirmLoading"
+    @confirm="onSubmit"
+  >
+    <el-form :label-width="80" :model="formData" ref="formRef" :rules="formRules">
+      <el-form-item label="店铺名称" prop="Type">
+        <dart-input v-model="formData.Type" maxlength="16" clearable trim type="text" v-if="isAdd" />
+        <span v-else>{{ formData.TypeName }}</span>
+      </el-form-item>
+    </el-form>
+  </DialogMode>
+</template>
+
+<script lang="ts" setup>
+import { ref, watch, computed } from 'vue';
+import DialogMode from '@/components/DialogMode.vue';
+import { {{#if (isIncludes tool 'add')}}apiAdd, {{/if}}{{#if (isIncludes table 'edit')}}apiEdit{{/if}} } from '@/api/{{camelCase name}}';
+import type { ResponseInfo } from '@/types/common';
+import type { TypeAddOrUpdate } from '@/types/{{camelCase name}}';
+import { showMessage,{{#if (isIncludes table 'edit')}} mergeHasSource,{{/if}} to } from '@/utils/index';
+import { cloneDeep } from 'lodash-es';
+import { ErrorCheckTip } from '@/config/index';
+import Bus from '@/assets/js/bus';
+
+const props = defineProps<{
+  info?: any;
+}>();
+const status = defineModel<boolean>({ required: true });
+const confirmLoading = ref(false);
+const formRef = ref();
+const formData = ref<TypeAddOrUpdate>({
+  Type: ''
+});
+{{#if (isIncludes table 'edit')}}
+// 编辑接口需要的参数
+const editSubmitData = {
+  Id: '',
+  Type: '',
+};
+{{/if}}
+const formRules: Record<string, any> = {
+  Type: [{ required: true, message: '必填', trigger: 'blur' }]
+};
+const isAdd = computed(() => !props.info);
+const title = computed(() => (isAdd.value ? '新增' : '编辑'));
+
+const onSubmit = () => {
+  if (!formRef.value) return;
+  formRef.value.validate(async (valid: boolean) => {
+    if (!valid) {
+      showMessage(ErrorCheckTip);
+      return;
+    }
+    confirmLoading.value = true;
+
+    {{#if (isAnd (isIncludes tool 'add') (isNoIncludes table 'edit'))}}
+    const [err, res] = await to<ResponseInfo>(apiAdd(formData.value)).finally(() => {
+      confirmLoading.value = false;
+    });
+    {{/if}}
+    {{#if (isAnd (isNoIncludes tool 'add') (isIncludes table 'edit'))}}
+    const _form = mergeHasSource(editSubmitData, formData.value);
+    const [err, res] = await to<ResponseInfo>(apiEdit(_form)).finally(() => {
+      confirmLoading.value = false;
+    });
+    {{/if}}
+    {{#if (isAnd (isIncludes tool 'add') (isIncludes table 'edit'))}}
+    const promise = isAdd.value ? apiAdd : apiEdit;
+    const _form = isAdd.value ? formData.value : mergeHasSource(editSubmitData, formData.value);
+    const [err, res] = await to<ResponseInfo>(promise(_form)).finally(() => {
+      confirmLoading.value = false;
+    });
+    {{/if}}
+
+    if (err) return;
+    const { code } = res!;
+
+    if (code) return;
+    showMessage(`${title.value}成功！`, 'success');
+    onClosed();
+    if (isAdd.value) {
+      Bus.emit('ut-refresh', 1);
+    } else {
+      Bus.emit('ut-refresh');
+    }
+  });
+};
+
+const onClosed = (): void => {
+  status.value = false;
+};
+
+watch(
+  () => status.value,
+  (newVal: boolean) => {
+    if (!newVal) return;
+    formData.value = props.info ? cloneDeep(props.info) : { Type: '' };
+  }
+);
+</script>

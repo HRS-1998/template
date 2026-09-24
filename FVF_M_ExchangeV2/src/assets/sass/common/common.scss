@@ -1,0 +1,52 @@
+@use './reset-layer.scss' as *; // layerui样式
+@use './dg.scss' as *;
+@use '../top.scss' as *; // mixin函数
+@use '../header.scss' as *;
+@use '../swiper.scss' as *;
+@use '../broadcast.scss' as *;
+@use '../store.scss' as *;
+@use '../footer.scss' as *;
+@use '../exchangeteldg.scss' as *;
+@use '../exchangedefaultdg.scss' as *;
+body {
+    width: 750px;
+    margin: 0 auto;
+    display: none;
+    background-color: #f4f5f6;
+    font-family: Source Han Sans-Regular;
+}
+#login-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.pd-b-0 {
+    padding-bottom: 0;
+}
+.pd-b-150 {
+    padding-bottom: 150px;
+}
+
+.dg-border-radius {
+    border-radius: 32px !important;
+}
+
+input {
+    border: none;
+}

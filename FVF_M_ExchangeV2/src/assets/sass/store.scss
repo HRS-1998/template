@@ -1,0 +1,133 @@
+.store-container {
+    .group {
+        width: 750px;
+        background: #fff;
+        border-radius: 16px;
+        margin-bottom: 16px;
+        &-header {
+            height: 64px;
+            padding-left: 28px;
+            box-sizing: border-box;
+            font-weight: 700;
+            font-size: 32px;
+            color: #5b5b5b;
+            text-align: left;
+            line-height: 64px;
+            border-radius: 24px 24px 0px 0px;
+            box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.03);
+        }
+
+        &-recommend {
+            color: #fff;
+            background: linear-gradient(-90deg, #ff9933 15%, #ff3f3f 84%);
+        }
+        &-normal {
+            background-image: url('../img/header-normal.png');
+            background-size: 750px 64px;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        &-list {
+            padding: 0 26px;
+            box-sizing: border-box;
+            height: 342px;
+            overflow: hidden;
+            overflow-x: auto;
+            display: flex;
+            align-items: center;
+            column-gap: 20px;
+            scrollbar-width: none;
+            &-item {
+                flex-shrink: 0;
+                flex-grow: 0;
+                position: relative;
+                width: 256px;
+                height: 288px;
+                display: flex;
+                padding: 8px 0 16px;
+                box-sizing: border-box;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                background: #eee;
+                border-radius: 16px;
+                cursor: pointer;
+
+                .list-item__img {
+                    img {
+                        width: 164px;
+                        height: 164px;
+                        object-fit: cover;
+                        -o-object-fit: cover;
+                    }
+                }
+                .list-item__title {
+                    margin-top: -10px;
+                    width: 200px;
+                    height: 40px;
+                    line-height: 40px;
+                    font-weight: 500;
+                    font-size: 24px;
+                    color: #3d3d3d;
+                    text-align: center;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                .list-item__price {
+                    margin-top: 10px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 224px;
+                    height: 60px;
+                    border-radius: 16px;
+                    color: #fff;
+                    font-weight: 700;
+                    font-size: 28px;
+                    // text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+                    // font-style: italic;
+                    background: linear-gradient(
+                        90deg,
+                        #ff3f3f 15%,
+                        #ff3f3f 84%
+                    );
+                    box-shadow: 0px 6px 10px 0px rgba(255, 178, 63, 0.59);
+
+                    .price-logo {
+                        width: 56px;
+                        height: 56px;
+                        img {
+                            width: 56px;
+                            height: 56px;
+                            object-fit: cover;
+                        }
+                    }
+                }
+                // 热销
+                .tag {
+                    position: absolute;
+                    top: -18px;
+                    right: -18px;
+                    width: 80px;
+                    height: 80px;
+                    background-image: url('../img/tag-hot.png');
+                    background-size: cover;
+                }
+            }
+
+            &-item__recommend {
+                width: 256px;
+                height: 288px;
+                background-image: url('../img/store-item-bg-recomand.png');
+                background-size: cover;
+            }
+            &-item__normal {
+                width: 256px;
+                height: 288px;
+                background-image: url('../img/store-item-bg-normal.png');
+                background-size: cover;
+            }
+        }
+    }
+}

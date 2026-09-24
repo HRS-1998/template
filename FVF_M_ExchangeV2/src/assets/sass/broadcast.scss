@@ -1,0 +1,61 @@
+.broadcast-container {
+    margin: 8px 0;
+
+    .broadcast-content {
+        width: 593px;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+        height: 60px;
+        line-height: 60px;
+
+        &-logo {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-image: url('../img/broadcast-logo.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            z-index: 3;
+            display: block;
+        }
+
+        &-text {
+            position: absolute;
+            width: 533px;
+            height: 60px;
+            line-height: 60px;
+            left: 70px;
+            font-weight: 400;
+            font-size: 28px;
+            color: #3d3d3d;
+            z-index: 1;
+            overflow: hidden;
+
+            .broadcast-list {
+                height: 60px;
+                position: relative;
+                transition: transform 0.8s ease-in-out;
+            }
+
+            .broadcast-item {
+                height: 60px;
+                line-height: 60px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                transition: none; // 翻页效果不需要渐变
+            }
+
+            &.animate {
+                .broadcast-list {
+                    transition: transform 0.8s ease-in-out;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,43 @@
+<template>
+  {{#if (isInequality search 'noSearch')}}
+  <Search ref="searchRef" @search="onSearch" />
+  {{/if}}
+  {{#if (isArrayNoEmpty tool)}}
+  <Tool{{#if (isIncludes tool 'export')}} :data="searchDataHistory"{{/if}} />
+  {{/if}}
+  <Table
+    v-model:data="tableData"
+    :loading="loading"
+    @page-change="onPageChange"
+    @size-change="onPageSizeChange"
+  />
+  <router-view />
+</template>
+
+<script lang="ts" setup>
+{{#if (isInequality search 'noSearch')}}
+import { ref } from 'vue';
+import Search from './components/Search.vue';
+{{/if}}
+{{#if (isArrayNoEmpty tool)}}
+import Tool from './components/Tool.vue';
+{{/if}}
+import Table from './components/Table.vue';
+import { apiGetList } from '@/api/{{camelCase name}}';
+import useRefreshTable from '@/hooks/use-refreshTable';
+
+{{#if (isInequality search 'noSearch')}}
+const searchRef = ref(null);
+{{/if}}
+const { {{#if (isInequality search 'noSearch')}}onSearch, {{/if}}loading, tableData, onPageChange, onPageSizeChange{{#if (isIncludes tool 'export')}}, searchDataHistory{{/if}} } = useRefreshTable({
+  ajax: apiGetList,
+  {{#if (isInequality search 'noSearch')}}
+  searchRef
+  {{else}}
+  searchData: {
+    PageIndex: 1,
+    PageSize: 10
+  }
+  {{/if}}
+});
+</script>

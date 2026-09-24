@@ -1,0 +1,73 @@
+<template>
+  <dart-search label-position="right" :model="serchCondiation" ref="searchRef">
+    <template v-slot:search-form>
+      <dart-search-item label="配置值">
+        <dart-input v-model="serchCondiation.ConfigValue" maxlength="32" clearable trim />
+      </dart-search-item>
+      <dart-search-item label="配置值">
+        <dart-input v-model="serchCondiation.ConfigValue" maxlength="32" clearable trim />
+      </dart-search-item>
+      {{#if (isEqual search 'moreSearch')}}
+      <dart-search-item label="配置值">
+        <dart-input v-model="serchCondiation.ConfigValue" maxlength="32" clearable trim />
+      </dart-search-item>
+      <dart-search-item label="配置值">
+        <dart-input v-model="serchCondiation.ConfigValue" maxlength="32" clearable trim />
+      </dart-search-item>
+      {{/if}}
+      {{#if (isEqual search 'lessSearch')}}
+      <dart-search-item>
+        <el-button
+          type="primary"
+          native-type="submit"
+          icon="search"
+          class="ml10"
+          :loading="loading"
+          @click="search"
+        >
+          查询
+        </el-button>
+      </dart-search-item>
+      {{/if}}
+    </template>
+    {{#if (isEqual search 'moreSearch')}}
+    <template v-slot:search-btn>
+      <el-button
+        type="primary"
+        native-type="submit"
+        icon="search"
+        :loading="loading"
+        @click="search"
+      >
+        查询
+      </el-button>
+    </template>
+    {{/if}}
+  </dart-search>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+import type { TypeSearchInfo } from '@/types/{{camelCase name}}';
+
+const emit = defineEmits(['search']);
+const searchRef = ref();
+const loading = ref(false);
+const serchCondiation = ref<TypeSearchInfo>({
+  ConfigValue: ''
+});
+
+// search 事件
+const search = (): void => {
+  emit('search', serchCondiation.value);
+};
+
+const setLoading = (val: boolean) => {
+  loading.value = val;
+};
+
+defineExpose({
+  search,
+  setLoading
+});
+</script>

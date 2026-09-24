@@ -1,0 +1,160 @@
+<template>
+  <DrawerMode
+    v-model="status"
+    size="60%"
+    :title="title"
+    :loading="loading"
+    :confirmLoading="confirmLoading"
+    @closed="onClosed"
+    @confirm="onSubmit"
+  >
+    <el-form :label-width="100" :model="formData" ref="formRef" :rules="formRules">
+      <el-form-item label="Id">
+        <dart-input
+          v-model="formData.Id"
+          input-type="integer1"
+          placeholder="只能输入正整数"
+          clearable
+          :maxlength="6"
+        />
+      </el-form-item>
+      <el-form-item label="类型" prop="Type">
+        <el-select
+          v-model="formData.Type"
+          clearable
+          filterable
+          :empty-values="['', 0, null, undefined]"
+          v-if="isAdd"
+        >
+          <el-option v-for="item in list" :key="item.Id" :label="item.Name" :value="item.Id" />
+        </el-select>
+        <span v-else>{{ formData.TypeName }}</span>
+      </el-form-item>
+      <el-form-item label="多选">
+        <el-checkbox-group v-model="formData.Checks">
+          <el-checkbox label="Option A" value="Value A" />
+          <el-checkbox label="Option B" value="Value B" />
+        </el-checkbox-group>
+      </el-form-item>
+      <el-form-item label="备注" prop="Remark">
+        <dart-input
+          v-model="formData.Remark"
+          type="textarea"
+          trim
+          placeholder="多个值之间用,隔开"
+          maxlength="500"
+          show-word-limit
+          :autosize="{ minRows: 5, maxRows: 10 }"
+        />
+      </el-form-item>
+    </el-form>
+  </DrawerMode>
+</template>
+
+<script lang="ts" setup>
+import { ref, computed } from 'vue';
+import DrawerMode from '@/components/DrawerMode.vue';
+import { {{#if (isIncludes tool 'add')}}apiAdd{{properCase name}}, {{/if}}{{#if (isIncludes table 'edit')}}apiEdit{{properCase name}}, apiGet{{properCase name}}Info{{/if}} } from '@/api/{{camelCase mainName}}';
+import type { ResponseInfo } from '@/types/common';
+import type { TypeAddOrUpdate{{properCase name}} } from '@/types/{{camelCase mainName}}';
+import { showMessage,{{#if (isIncludes table 'edit')}} mergeHasSource,{{/if}} to } from '@/utils/index';
+import { ErrorCheckTip } from '@/config/index';
+import Bus from '@/assets/js/bus';
+import useCommon from '@/hooks/use-common';
+
+const { route, router } = useCommon();
+const status = ref(true); // 抽屉开关状态
+const loading = ref(false);
+const confirmLoading = ref(false);
+const formRef = ref();
+const formData = ref<TypeAddOrUpdate{{properCase name}}>({
+  Id: '',
+  Type: '',
+  Checks: [],
+  Remark: ''
+});
+{{#if (isIncludes table 'edit')}}
+// 编辑接口需要的参数
+const editSubmitData = {
+  Id: '',
+  Type: '',
+  Checks: [],
+  Remark: ''
+};
+{{/if}}
+const formRules: Record<string, any> = {
+  Type: [{ required: true, message: '必填', trigger: 'change' }]
+};
+const list = [{ Id: '配置值', Name: 'ConfigValue' }];
+
+const isAdd = computed((): boolean => route.meta.type === 'add');
+const title = computed(() => (isAdd.value ? '新增' : '编辑'));
+
+const onSubmit = () => {
+  if (!formRef.value) return;
+  formRef.value.validate(async (valid: boolean) => {
+    if (!valid) {
+      showMessage(ErrorCheckTip);
+      return;
+    }
+    confirmLoading.value = true;
+
+    {{#if (isAnd (isIncludes tool 'add') (isNoIncludes table 'edit'))}}
+    const [err, res] = await to<ResponseInfo>(apiAdd{{properCase name}}(formData.value)).finally(() => {
+      confirmLoading.value = false;
+    });
+    {{/if}}
+    {{#if (isAnd (isNoIncludes tool 'add') (isIncludes table 'edit'))}}
+    const _form = mergeHasSource(editSubmitData, formData.value);
+
+     _form.Id = isAdd.value ? 0 : route.query.subId;
+    const [err, res] = await to<ResponseInfo>(apiEdit{{properCase name}}(_form)).finally(() => {
+      confirmLoading.value = false;
+    });
+    {{/if}}
+    {{#if (isAnd (isIncludes tool 'add') (isIncludes table 'edit'))}}
+    const promise = isAdd.value ? apiAdd{{properCase name}} : apiEdit{{properCase name}};
+    const _form = mergeHasSource(isAdd.value ? addSubmitData : editSubmitData, formData.value);
+
+    _form.Id = isAdd.value ? 0 : route.query.subId;
+    const [err, res] = await to<ResponseInfo>(promise(_form)).finally(() => {
+      confirmLoading.value = false;
+    });
+    {{/if}}
+    
+    if (err) return;
+    const { code } = res!;
+
+    if (code) return;
+    showMessage(`${title.value}成功！`, 'success');
+    onClosed();
+    if (isAdd.value) {
+      Bus.emit('ut-{{lowerCase name}}-refresh', 1);
+    } else {
+      Bus.emit('ut-{{lowerCase name}}-refresh');
+    }
+  });
+};
+
+const onClosed = (): void => {
+   router.push({name: '{{camelCase mainName}}{{properCase name}}' });
+};
+{{#if (isIncludes table 'edit')}}
+
+const getInfo = async () => {
+  if (isAdd.value) return;
+  loading.value = true;
+  const [err, res] = await to<ResponseInfo>(apiGet{{properCase name}}Info({ id: route.params.subId })).finally(() => {
+    loading.value = false;
+  });
+
+ if (err) return;
+  const { code, data } = res!;
+  
+  if (code) return;
+  formData.value = data;
+};
+
+getInfo();
+{{/if}}
+</script>

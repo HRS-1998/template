@@ -1,0 +1,64 @@
+@use './common/mixin.scss' as *; // mixin函数
+.swiper {
+    position: relative;
+    margin-top: -84px;
+    overflow: hidden;
+    height: 265px;
+    width: 750px;
+    border-radius: 20px;
+    .swiper-container {
+        margin: 0 auto;
+        width: 702px;
+        height: 265px;
+        overflow: hidden;
+        position: relative; // 添加相对定位
+
+        .swiper-wrapper {
+            width: 702px;
+            height: 265px;
+            display: flex;
+            flex-direction: row;
+            .swiper-slide {
+                flex-shrink: 0;
+                width: 702px;
+                height: 265px;
+                background-size: cover;
+                background-position: center;
+                img {
+                    width: 702px;
+                    height: 265px;
+                    border-radius: 20px;
+                    object-fit: cover;
+                    -o-object-fit: cover;
+                }
+            }
+        }
+
+        .swiper-pagination {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+            .swiper-pagination-bullet {
+                width: 10px;
+                height: 10px;
+                display: inline-block;
+                border-radius: 50%;
+                background: #ccc;
+                margin: 0 10px;
+                opacity: 1;
+                cursor: pointer;
+            }
+
+            .swiper-pagination-bullet-active {
+                width: 22px;
+                height: 10px;
+                border-radius: 60px;
+                background: #fff;
+                opacity: 1;
+            }
+        }
+    }
+}

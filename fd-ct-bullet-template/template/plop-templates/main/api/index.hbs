@@ -1,0 +1,75 @@
+import { {{camelCase name}}Api } from '@/api/interface';
+import type { TypeSearchInfo, {{#if (isOr (isIncludes tool 'add') (isOr (isIncludes table 'edit') (isIncludes table 'view')))}}TypeAddOrUpdate{{/if}} } from '@/types/{{camelCase name}}.d';
+import { objectToUrlParams } from '@/utils/index';
+import { Http } from 'ct-dart3';
+
+// 获取列表信息
+export const apiGetList = (params: TypeSearchInfo): Promise<any> => {
+  return Http.ajax({
+    method: 'get',
+    url: {{camelCase name}}Api.getList,
+    data: params
+  });
+};
+{{#if (isOr (isIncludes table 'edit') (isIncludes table 'view'))}}
+
+// 获取列表信息
+export const apiGetInfo = (params: { id: string | number }): Promise<any> => {
+  return Http.ajax({
+    method: 'get',
+    url: {{camelCase name}}Api.getInfo,
+    data: params
+  });
+};
+{{/if}}
+{{#if (isIncludes table 'edit')}}
+
+// 编辑
+export const apiEdit = (params: TypeAddOrUpdate): Promise<any> => {
+  return Http.ajax({
+    method: 'post',
+    url: {{camelCase name}}Api.edit,
+    data: params
+  });
+};
+{{/if}}
+{{#if (isIncludes tool 'add')}}
+
+// 添加
+export const apiAdd = (params: TypeAddOrUpdate): Promise<any> => {
+  return Http.ajax({
+    method: 'post',
+    url: {{camelCase name}}Api.add,
+    data: params
+  });
+};
+{{/if}}
+{{#if (isIncludes table 'delete')}}
+
+// 删除
+export const apiDelete = (params: any): Promise<any> => {
+  return Http.ajax({
+    method: 'post',
+    url: {{camelCase name}}Api.delete,
+    data: params
+  });
+};
+{{/if}}
+{{#if (isIncludes table 'enable')}}
+
+// 禁/启用
+export const apiChangeStatus = (params: any): Promise<any> => {
+  return Http.ajax({
+    method: 'post',
+    url: {{camelCase name}}Api.changeStatus,
+    data: params
+  });
+};
+{{/if}}
+{{#if (isIncludes tool 'export')}}
+
+// 导出
+export const apiExport = (params: any): string => {
+   return {{camelCase name}}Api.export + `?_t=${new Date().getTime()}&` + objectToUrlParams(params);
+};
+{{/if}}

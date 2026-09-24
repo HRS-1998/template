@@ -1,0 +1,10 @@
+.idea
+node_modules
+.rar
+other
+.vscode
+dist
+destServer
+dest
+.history
+.DS_Store

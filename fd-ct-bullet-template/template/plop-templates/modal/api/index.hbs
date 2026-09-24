@@ -1,0 +1,8 @@
+// {{title}}提交
+export const api{{properCase name}}Submit = (params: any): Promise<any> => {
+  return Http.ajax({
+    method: 'post',
+    url: {{camelCase mainName}}Api.{{camelCase name}}Submit,
+    data: params
+  });
+};

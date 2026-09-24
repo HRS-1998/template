@@ -1,0 +1,33 @@
+  {
+    path: '/{{dashCase name}}',
+    name: '{{camelCase name}}',
+    component: () => import('@/views/{{camelCase name}}/index.vue'),
+    meta: { config: config.{{camelCase name}} },
+    {{#if (isAnd (isOr (isIncludes tool 'add') (isOr (isIncludes table 'edit') (isIncludes table 'view'))) (isEqual comType 'Drawer'))}}
+    children: [
+      {{#if (isIncludes tool 'add')}}
+      {
+        path: 'add',
+        name: '{{camelCase name}}Add',
+        component: () => import('@/views/{{camelCase name}}/components/Add.vue'),
+        meta: { type: 'add' }
+      },
+      {{/if}}
+      {{#if (isIncludes table 'edit')}}
+      {
+        path: 'edit/:id',
+        name: '{{camelCase name}}Edit',
+        component: () => import('@/views/{{camelCase name}}/components/Add.vue'),
+        meta: { type: 'edit' }
+      },
+      {{/if}}
+      {{#if (isIncludes table 'view')}}
+      {
+        path: 'view/:id',
+        name: '{{camelCase name}}View',
+        component: () => import('@/views/{{camelCase name}}/components/View.vue')
+      }
+      {{/if}}
+    ]
+   {{/if}}
+  },

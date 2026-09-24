@@ -1,0 +1,54 @@
+@use '../sass/common/mixin.scss' as *; // mixin函数
+@use '../sass/common/common.scss' as *; // 公共样式
+.panel-face-value {
+    display: none;
+    padding: 36px 34px 0;
+    box-sizing: border-box;
+    background-color: #fff;
+    border-bottom: 20px solid #f4f5f6;
+    .face-value {
+        display: flex;
+        flex-wrap: wrap;
+        .nodata {
+            padding-top: 20px;
+            width: 100%;
+            text-align: center;
+            @include fc(30px, #999999);
+            word-break: break-word;
+        }
+        &__item {
+            margin-right: 12px;
+            margin-left: 12px;
+            margin-bottom: 24px;
+            width: 200px;
+            height: 120px;
+            background: #f4f7fc;
+            border-radius: 20px 20px 20px 20px;
+            @include fc(40px, #1677ff);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            span {
+                padding-left: 8px;
+                padding-right: 8px;
+                box-sizing: border-box;
+                display: inline-block;
+                @include ellipsis();
+            }
+        }
+        .checked {
+            background: #1677ff;
+            color: #fff;
+        }
+    }
+    .face-value__tips {
+        min-height: 10px;
+        display: flex;
+        align-items: center;
+        // padding-bottom: 20px;
+        span {
+            @include fc(32px, #ff3b30);
+        }
+    }
+}

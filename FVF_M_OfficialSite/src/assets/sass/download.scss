@@ -1,0 +1,88 @@
+.download {
+    position: relative;
+    width: 750px;
+    &-top {
+        width: 100%;
+        height: 64px;
+    }
+    &-content {
+        margin-top: -8px;
+        text-align: center;
+        background-color: #fffcf5;
+        &-title {
+            margin: 0 auto;
+            width: 372px;
+            font-size: 75px;
+            line-height: 75px;
+            font-weight: bold;
+            font-family: 'LuckiestGuy';
+        }
+        &-text {
+            margin: 20px auto 0;
+            width: 700px;
+            font-size: 28px;
+            line-height: 42px;
+        }
+        &-tips {
+            margin: 50px auto 0;
+            width: 700px;
+            font-size: 28px;
+            line-height: 42px;
+        }
+        &-btn {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            a {
+                .apple {
+                    width: 320px;
+                    height: 92px;
+                    object-fit: cover;
+                    object-position: center;
+                }
+                .google {
+                    margin-top: 4px;
+                    width: 320px;
+                    height: 92px;
+                    object-fit: cover;
+                    object-position: center;
+                    transition: transform 0.3s, webkit-transform 0.3s;
+                    &:hover {
+                        transform: scale(1.05);
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .download {
+        width: 100%;
+        &-top {
+            width: 100%;
+            height: 96px;
+        }
+        &-content {
+            &-title {
+                width: fit-content;
+            }
+            &-text {
+            }
+            &-btn {
+                a {
+                    .apple {
+                        width: 100%;
+                        height: auto;
+                    }
+                    .google {
+                        width: 100%;
+                        height: auto;
+                    }
+                }
+            }
+        }
+    }
+}

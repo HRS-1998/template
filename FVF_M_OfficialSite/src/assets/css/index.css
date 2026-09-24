@@ -1,0 +1,737 @@
+@charset "UTF-8";
+/* 变量已经赋值，那就不使用默认值，如果没有赋值，则使用默认值。 */
+/* 四条border样式 */
+/* 注意：
+    1. 元素需要添加position
+    2. all-border-1px是加在:after伪类上
+*/
+/* 单条border样式 */
+/* 注意：
+    1. 元素需要添加position
+    2. border-1px是加在:after伪类上
+*/
+/* 清除浮动 */
+/* 注意：
+    用在父元素的:after伪类上
+*/
+/* px2rem */
+/* 注意：
+    1. 移动端项目自带px2npm包，不需要使用该方法
+    2. 转换比率默认是100
+*/
+/* 超出文本显示'...' */
+/* 注意：
+    $line是行数。默认1行
+*/
+/* 定位全屏 */
+/* 定位上下左右居中 */
+/* 定位上下居中 */
+/* 定位左右居中 */
+/* 宽高 */
+/* 字体 大小、行高、字体 */
+/* 字体 大小，颜色 */
+/* 文字裁剪 // ??? */
+/* 一段文本左右对其，类似于flex的space-around */
+/*
+   注意：
+    例子
+        <span>姓名</span>：<input type="text">
+        <span>电话号码</span>：<input type="text">
+    使用在span元素上，宽度不能小于文字宽度
+*/
+/* 背景图片拉伸沾满宽高 */
+/* 背景图片适应元素宽高，不拉伸，超出部分隐藏 */
+/* flex布局 父容器 */
+/* flex布局 子元素 */
+.banner {
+  position: sticky;
+  width: 750px;
+  height: 760px;
+  top: 0;
+  overflow: hidden;
+  background: #fffcf5;
+}
+.banner-img {
+  height: 760px;
+  left: 0;
+  object-fit: cover;
+  object-position: top center;
+  position: absolute;
+  top: 0;
+  width: 750px;
+}
+
+@media screen and (min-width: 768px) {
+  .banner {
+    width: 100%;
+    height: 0;
+    padding-bottom: 45%;
+  }
+  .banner-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+}
+.mask {
+  width: 100%;
+  height: 200px;
+  background: #fffcf5;
+}
+
+.download {
+  position: relative;
+  width: 750px;
+}
+.download-top {
+  width: 100%;
+  height: 64px;
+}
+.download-content {
+  margin-top: -8px;
+  text-align: center;
+  background-color: #fffcf5;
+}
+.download-content-title {
+  margin: 0 auto;
+  width: 372px;
+  font-size: 75px;
+  line-height: 75px;
+  font-weight: bold;
+  font-family: "LuckiestGuy";
+}
+.download-content-text {
+  margin: 20px auto 0;
+  width: 700px;
+  font-size: 28px;
+  line-height: 42px;
+}
+.download-content-tips {
+  margin: 50px auto 0;
+  width: 700px;
+  font-size: 28px;
+  line-height: 42px;
+}
+.download-content-btn {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.download-content-btn a .apple {
+  width: 320px;
+  height: 92px;
+  object-fit: cover;
+  object-position: center;
+}
+.download-content-btn a .google {
+  margin-top: 4px;
+  width: 320px;
+  height: 92px;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s, webkit-transform 0.3s;
+}
+.download-content-btn a .google:hover {
+  transform: scale(1.05);
+}
+
+@media screen and (min-width: 768px) {
+  .download {
+    width: 100%;
+  }
+  .download-top {
+    width: 100%;
+    height: 96px;
+  }
+  .download-content-title {
+    width: fit-content;
+  }
+  .download-content-btn a .apple {
+    width: 100%;
+    height: auto;
+  }
+  .download-content-btn a .google {
+    width: 100%;
+    height: auto;
+  }
+}
+.swiper-img {
+  position: relative;
+  margin-top: 138px;
+  width: 750px;
+  height: 1001x;
+  overflow: hidden;
+}
+.swiper-img .swiper-container {
+  width: 750px;
+  height: 1001px;
+  overflow: hidden;
+  position: relative;
+}
+.swiper-img .swiper-container .swiper-wrapper {
+  width: 750px;
+  height: 812px;
+  display: flex;
+}
+.swiper-img .swiper-container .swiper-wrapper .swiper-slide {
+  flex-shrink: 0;
+  width: 460px;
+  height: 812x;
+}
+.swiper-img .swiper-container .swiper-wrapper .swiper-slide img {
+  width: 460px;
+  height: 812px;
+  border-radius: 36px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.swiper-img .swiper-container-btn {
+  margin-top: 57px;
+  width: 750px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.swiper-img .swiper-container-btn-prev, .swiper-img .swiper-container-btn-next {
+  cursor: pointer;
+  transition: transform 0.3s linear, -webkit-transform 0.3s linear;
+}
+.swiper-img .swiper-container-btn-prev img, .swiper-img .swiper-container-btn-next img {
+  width: 20px;
+  height: 34px;
+  object-fit: cover;
+  object-position: center;
+}
+.swiper-img .swiper-container-btn-next:hover {
+  transform: translateX(5px);
+}
+.swiper-img .swiper-container-btn-prev {
+  margin-right: 35px;
+}
+.swiper-img .swiper-container-btn-prev:hover {
+  transform: translateX(-5px);
+}
+
+@media screen and (min-width: 768px) {
+  .swiper-img {
+    width: 100%;
+    height: auto;
+    margin-top: 98px;
+  }
+  .swiper-img .swiper-container {
+    width: 100%;
+    height: auto;
+  }
+  .swiper-img .swiper-container .swiper-wrapper {
+    width: 100%;
+    height: auto;
+  }
+  .swiper-img .swiper-container .swiper-wrapper .swiper-slide {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 350px;
+    height: 600px;
+  }
+  .swiper-img .swiper-container .swiper-wrapper .swiper-slide img {
+    width: 340px;
+    height: 600px;
+    border-radius: 20px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  .swiper-img .swiper-container-btn {
+    width: 100%;
+    height: auto;
+  }
+}
+.video-container {
+  margin-top: 149px;
+  width: 750px;
+  height: 380px;
+  text-align: center;
+}
+.video-container .video {
+  width: 662px;
+  height: 380px;
+}
+
+@media screen and (min-width: 768px) {
+  .video-container {
+    margin-top: 101px;
+  }
+  .video-container .video {
+    width: 88%;
+    height: auto;
+  }
+}
+.swiper-reviews {
+  position: relative;
+  margin-top: 121px;
+  width: 750px;
+  text-align: center;
+}
+.swiper-reviews-title {
+  margin: 0 auto;
+  width: 700px;
+  height: 144px;
+  font-size: 72px;
+  line-height: 72px;
+  font-family: "LuckiestGuy";
+  font-weight: bold;
+}
+.swiper-reviews .swiper-container {
+  margin: 33px auto 0;
+  width: 543px;
+  min-height: 292px;
+  overflow: hidden;
+  position: relative;
+  background-color: #fffcf5;
+}
+.swiper-reviews .swiper-container .swiper-wrapper {
+  display: flex;
+  width: 543px;
+}
+.swiper-reviews .swiper-container .swiper-wrapper .swiper-slide {
+  width: 543px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.swiper-reviews .swiper-container .swiper-wrapper .swiper-slide-svg {
+  width: 253px;
+  height: 38px;
+}
+.swiper-reviews .swiper-container .swiper-wrapper .swiper-slide-text {
+  margin-top: 38px;
+  width: 543px;
+  min-height: 120px;
+  font-size: 26px;
+  line-height: 39px;
+  color: #000;
+  text-align: center;
+}
+.swiper-reviews .swiper-container .swiper-wrapper .swiper-slide-headline {
+  margin-top: 47px;
+  width: 466px;
+  height: 4px;
+  background: #fd8c12;
+}
+.swiper-reviews .swiper-container .swiper-wrapper .swiper-slide-user {
+  margin-top: 37px;
+  width: 500px;
+  height: 32px;
+  font-size: 32px;
+  line-height: 32px;
+  color: #000;
+  text-align: center;
+  font-family: "Montserrat-Bold";
+}
+.swiper-reviews .reviews-btn-prev,
+.swiper-reviews .reviews-btn-next {
+  position: absolute;
+  top: calc(50% + 144px);
+  transform: translateY(-50%);
+  z-index: 10;
+  cursor: pointer;
+}
+.swiper-reviews .reviews-btn-prev img,
+.swiper-reviews .reviews-btn-next img {
+  transition: transform 0.3s linear, -webkit-transform 0.3s linear;
+  display: block;
+  width: 16px;
+  height: 26px;
+  object-fit: cover;
+  object-position: center;
+}
+.swiper-reviews .reviews-btn-prev {
+  left: 26px;
+}
+.swiper-reviews .reviews-btn-prev img:hover {
+  transform: translateX(-5px);
+}
+.swiper-reviews .reviews-btn-next {
+  right: 26px;
+}
+.swiper-reviews .reviews-btn-next img:hover {
+  transform: translateX(5px);
+}
+
+@media screen and (min-width: 1400px) {
+  .swiper-reviews {
+    width: 100%;
+  }
+  .swiper-reviews-title {
+    width: fit-content;
+  }
+  .swiper-reviews .swiper-container {
+    width: calc(100% - 620px);
+  }
+  .swiper-reviews .swiper-container .swiper-wrapper {
+    width: 100%;
+    display: flex;
+  }
+  .swiper-reviews .swiper-container .swiper-wrapper .swiper-slide {
+    width: calc(33.33% - 15px);
+    margin-right: 15px;
+  }
+  .swiper-reviews .swiper-container .swiper-wrapper .swiper-slide-svg {
+    width: 220px;
+    height: 38px;
+  }
+  .swiper-reviews .swiper-container .swiper-wrapper .swiper-slide-text {
+    width: 100%;
+    min-height: 150px;
+    font-size: 20px;
+    line-height: 30px;
+  }
+  .swiper-reviews .swiper-container .swiper-wrapper .swiper-slide-headline {
+    width: 90%;
+  }
+  .swiper-reviews .swiper-container .swiper-wrapper .swiper-slide-user {
+    width: 408px;
+    font-size: 20px;
+  }
+  .swiper-reviews .reviews-btn-prev {
+    top: calc(50% + 72px);
+    left: 200px;
+  }
+  .swiper-reviews .reviews-btn-prev img {
+    width: 19px;
+    height: 31px;
+  }
+  .swiper-reviews .reviews-btn-next {
+    top: calc(50% + 72px);
+    right: 200px;
+  }
+  .swiper-reviews .reviews-btn-next img {
+    width: 19px;
+    height: 31px;
+  }
+}
+.footer-container {
+  position: relative;
+  margin-top: 111px;
+  width: 750px;
+  height: 830px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.footer-container-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: top center;
+  z-index: 0;
+}
+.footer-container-title {
+  position: absolute;
+  top: 84px;
+  height: 176px;
+  width: 750px;
+  z-index: 1;
+}
+.footer-container-title .main-title {
+  margin: 0 auto;
+  width: 500px;
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 40px;
+  text-align: center;
+  color: #fff;
+  font-family: "LuckiestGuy";
+}
+.footer-container-title .sub-title {
+  margin: 17px auto 0;
+  width: 600px;
+  font-size: 26px;
+  line-height: 39px;
+  color: #fff;
+  text-align: center;
+}
+.footer-container-btn {
+  position: absolute;
+  top: 304px;
+  width: 231px;
+  height: 72px;
+  background-image: url("../img/mobile/footer-btn.png");
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+  transition: transform 0.3s, webkit-transform 0.3s;
+}
+.footer-container-btn:hover {
+  transform: scale(1.1);
+}
+.footer-container-btn a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.footer-container-logo {
+  position: absolute;
+  left: 62px;
+  bottom: 169px;
+  width: 194px;
+  height: 117px;
+  background-image: url("../img/mobile/footer-logo.png");
+  background-size: cover;
+  background-position: center;
+}
+
+@media screen and (min-width: 768px) {
+  .footer-container {
+    width: 100%;
+    height: 0;
+    padding-bottom: 65%;
+  }
+  .footer-container-bg {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: top center;
+  }
+  .footer-container-title {
+    width: 100%;
+    top: 16.7%;
+  }
+  .footer-container-title .main-title {
+    width: fit-content;
+  }
+  .footer-container-title .sub-title {
+    width: fit-content;
+    font-size: 16px;
+    line-height: 16px;
+  }
+  .footer-container-btn {
+    top: 35%;
+  }
+  .footer-container-logo {
+    bottom: 16.7%;
+  }
+}
+@media screen and (min-widht: 1280px) {
+  .footer-container-btn {
+    top: 301px;
+  }
+}
+.right-info {
+  font-size: 16px;
+  color: #fff;
+  width: 100%;
+  height: 46px;
+  background: #000;
+  text-align: center;
+  line-height: 46px;
+}
+
+body {
+  width: 100%;
+}
+
+svg {
+  margin: 0;
+  padding: 0;
+}
+
+@font-face {
+  font-family: "LuckiestGuy";
+  src: url("../../..//assets/font/LuckiestGuy-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("../../../assets/font/Montserrat-Medium.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Montserrat-Bold";
+  src: url("../../../assets/font/Montserrat-Bold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+.wrapper {
+  width: 750px;
+  margin: 0 auto;
+  font-family: "Montserrat", sans-serif;
+}
+.wrapper-main {
+  width: 750px;
+  margin: -200px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.wrapper-main-content {
+  position: relative;
+  width: 750px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-basis: 0;
+  flex-grow: 1;
+  background-color: #fffcf5;
+}
+
+@media screen and (min-width: 768px) {
+  .wrapper {
+    width: 100%;
+  }
+  .wrapper-main {
+    width: 100%;
+  }
+  .wrapper-main-content {
+    width: 100%;
+  }
+}
+.tweetlist {
+  display: none;
+}
+.tweetlist__item {
+  padding: 24px;
+  box-sizing: border-box;
+  background-color: #fff;
+  border-bottom: 20px solid #f4f5f6;
+}
+.tweetlist__item .userinfo {
+  display: flex;
+}
+.tweetlist__item .userinfo__portrait {
+  width: 84px;
+  height: 84px;
+  margin-right: 16px;
+}
+.tweetlist__item .userinfo__portrait img {
+  width: 100%;
+  height: 100%;
+}
+.tweetlist__item .userinfo__data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.tweetlist__item .userinfo__data .dot {
+  display: flex;
+  align-items: center;
+}
+.tweetlist__item .userinfo__data .dot span {
+  position: relative;
+  margin-right: 20px;
+}
+.tweetlist__item .userinfo__data .dot span::after {
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  transform: translateY(-50%);
+  content: "";
+  width: 4px;
+  height: 4px;
+  background: #666666;
+  border-radius: 50%;
+}
+.tweetlist__item .userinfo__data .dot span:last-child::after {
+  display: none;
+}
+.tweetlist__item .userinfo__data .name {
+  font-size: 34px;
+  color: #0f1113;
+  font-weight: 700;
+  display: inline-block;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  max-width: 300px;
+}
+.tweetlist__item .userinfo__data .role {
+  background-color: #dcebff;
+  font-size: 24px;
+  color: #1377ff;
+  width: 100px;
+  height: 32px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.tweetlist__item .userinfo__data .date {
+  font-size: 28px;
+  color: #666666;
+}
+.tweetlist__item .userinfo__data .icon-earth {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background-image: url("../img/icon-earth.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.tweetlist__item .content {
+  font-size: 32px;
+  color: #212121;
+}
+.tweetlist__item .content a {
+  color: #1377ff;
+}
+.tweetlist__item .servicelist {
+  margin-top: 24px;
+  box-sizing: border-box;
+}
+.tweetlist__item .servicelist--carriers {
+  background-image: var(--servicelist-bg, url("/assets/img/servicelist-bg.png")); /* 默认本地背景图片 */
+  background-size: 700px 700px;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: space-between;
+  align-content: stretch;
+  width: 700px;
+  min-height: 700px;
+  max-width: 100%;
+  image-rendering: -webkit-optimize-contrast; /* 优化清晰度 */
+  image-rendering: crisp-edges; /* 防止模糊插值 */
+}
+.tweetlist__item .servicelist__item-pic img {
+  width: 702px;
+  height: 500px;
+}
+.tweetlist__item .servicelist-items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  width: 100%;
+  margin-top: auto;
+}
+.tweetlist__item .servicelist-items .servicelist__item {
+  width: 280px;
+  height: 152px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+}
+.tweetlist__item .servicelist-items .servicelist__item img {
+  max-width: 280px;
+  max-height: 152px;
+  object-fit: contain;
+}

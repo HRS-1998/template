@@ -1,0 +1,294 @@
+@use './mixin.scss' as *; // mixin函数
+@mixin commonDg {
+    padding: 100px 40px 72px;
+    box-sizing: border-box !important;
+}
+
+@mixin commonDgBtn {
+    margin-top: 60px;
+    width: 600px;
+    height: 96px;
+    line-height: 96px;
+    background: #ff3f3f;
+    border-radius: 20px;
+    @include fc(36px, #fff);
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+}
+
+.dg {
+    width: 680px;
+    background: linear-gradient(180deg, #ffe2e2 15%, #ffeddb 84%), #ffffff;
+    box-shadow: 0px 10px 10px 0px rgba(255, 142, 29, 0.5);
+    border-radius: 32px;
+    position: relative;
+    word-break: break-word;
+    &__close {
+        position: absolute;
+        right: 32px;
+        top: 32px;
+        display: inline-block;
+        @include wh(48px, 48px);
+        @include bgimg-stretch('../img/btn-close.png');
+        cursor: pointer;
+    }
+    .dg__bottom {
+        .btn-comfirm {
+            @include commonDgBtn();
+        }
+    }
+}
+
+.dg-login {
+    @include commonDg();
+    width: 680px;
+    height: 628px;
+    text-align: center;
+    .dg__con {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .title {
+            margin-top: -28px;
+            width: 286px;
+            height: 48px;
+            font-weight: 500;
+            font-size: 44px;
+            color: #3d3d3d;
+            line-height: 48px;
+            text-align: center;
+        }
+        .btn {
+            display: flex;
+            align-items: center;
+            width: 578px;
+            height: 96px;
+            line-height: 96px;
+            font-weight: 500;
+            font-size: 36px;
+            border-radius: 16px;
+            cursor: pointer;
+        }
+        .btn-facebook {
+            margin-top: 64px;
+            background: #2374f2;
+            .social-icon {
+                margin-left: 36px;
+                @include wh(68px, 68px);
+                background-image: url('../img/facebook.png');
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
+            .social-name {
+                flex: 1;
+                @include fc(36px, #fff);
+                text-align: center;
+            }
+        }
+        .btn-google {
+            margin-top: 48px;
+            margin-bottom: 38px;
+            background: #fff;
+            position: relative;
+            .social-icon {
+                margin-left: 36px;
+                @include wh(68px, 68px);
+                background-image: url('../img/google.png');
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
+            .social-name {
+                flex: 1;
+                @include fc(36px, #3d4043);
+                text-align: center;
+            }
+            #J-google-renderBtn {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 578px;
+                height: 96px;
+                opacity: 0;
+            }
+        }
+        .link {
+            @include fc(32px, #3d3d3d);
+            line-height: 48px;
+            font-weight: 350;
+            a {
+                @include fc(32px, #1e83ff);
+            }
+        }
+    }
+}
+
+.dg-confirm {
+    max-height: 806px;
+    @include commonDg();
+    text-align: center;
+    .dg__con {
+        display: flex;
+        flex-direction: column;
+        .title {
+            width: 550px;
+            margin: 0 auto;
+            line-height: 48px;
+            @include fc(32px, #3d3d3d);
+            span {
+                font-weight: 350;
+                @include fc(32px, #ff3f3f);
+            }
+        }
+        .phone {
+            margin-top: 36px;
+            margin-bottom: 36px;
+            font-weight: 500;
+            line-height: 48px;
+            @include fc(48px, #3d3d3d);
+            -moz-user-select: text;
+            -webkit-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+        .tips {
+            font-weight: 350;
+            line-height: 48px;
+            @include fc(32px, #3d3d3d);
+        }
+    }
+}
+
+.dg-tips {
+    @include commonDg();
+    text-align: center;
+    .dg__con {
+        .title {
+            width: 472px;
+            margin: 0 auto;
+            @include fc(42px, #3d3d3d);
+            font-weight: 700;
+        }
+        .tips {
+            margin-top: 16px;
+            @include fc(32px, #3d3d3d);
+        }
+    }
+}
+
+.dg-loading {
+    @include commonDg();
+    text-align: center;
+    width: 680px;
+    .dg__con {
+        width: 408px;
+        margin: 0 auto;
+        .circle {
+            width: 190px;
+            height: 190px;
+            margin: 0 auto;
+            position: relative;
+            &__loading {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 190px;
+                height: 190px;
+                animation: rotate 2s linear infinite;
+                margin: auto;
+            }
+            .path {
+                stroke-dasharray: 1, 200;
+                stroke-dashoffset: 0;
+                stroke: #ff3f3f;
+                stroke-width: 10px;
+                animation: dash 1.5s ease-in-out infinite;
+            }
+            @keyframes rotate {
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+            @keyframes dash {
+                0% {
+                    stroke-dasharray: 1, 200;
+                    stroke-dashoffset: 0;
+                }
+                50% {
+                    stroke-dasharray: 89, 200;
+                    stroke-dashoffset: -35px;
+                }
+                100% {
+                    stroke-dasharray: 89, 200;
+                    stroke-dashoffset: -124px;
+                }
+            }
+            &__countdown-num {
+                position: absolute;
+                top: 0;
+                left: 0;
+                @include fc(72px, #3d3d3d);
+                width: 190px;
+                height: 190px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+        .tips {
+            margin-top: 70px;
+            @include fc(32px, #3d3d3d);
+        }
+    }
+}
+
+.dg-success {
+    @include commonDg();
+    text-align: center;
+    .dg__con {
+        margin: 0 auto;
+        .icon {
+            margin: -184px auto 48px;
+            width: 200px;
+            height: 200px;
+            @include bgimg-stretch('../img/icon-success.png');
+        }
+        .title {
+            width: 472px;
+            margin: 0 auto;
+            @include fc(42px, #3d3d3d);
+            font-weight: 500;
+        }
+        .tips {
+            margin-top: 16px;
+            @include fc(32px, #3d3d3d);
+        }
+    }
+}
+
+.dg-fail {
+    @include commonDg();
+    text-align: center;
+    &--loginfail {
+        padding: 72px 40px 72px;
+    }
+    .dg__con {
+        margin: 0 auto;
+        .icon {
+            margin: -186px auto 48px;
+            width: 200px;
+            height: 200px;
+            @include bgimg-stretch('../img/icon-warn.png');
+        }
+        .title {
+            width: 472px;
+            margin: 0 auto;
+            @include fc(42px, #3d3d3d);
+        }
+        .tips {
+            margin-top: 16px;
+            font-weight: 350px;
+            @include fc(32px, #3d3d3d);
+        }
+    }
+}

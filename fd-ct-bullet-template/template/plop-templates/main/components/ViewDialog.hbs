@@ -1,0 +1,30 @@
+<template>
+  <DialogMode v-model="status" title="查看" :is-edit="false">
+    <el-form :label-width="100" :model="formData">
+      <el-form-item label="配置值">
+        <span>123456</span>
+      </el-form-item>
+    </el-form>
+  </DialogMode>
+</template>
+
+<script lang="ts" setup>
+import { ref, watch } from 'vue';
+import DialogMode from '@/components/DialogMode.vue';
+import type { TypeAddOrUpdate } from '@/types/{{camelCase name}}';
+import { cloneDeep } from 'lodash-es';
+
+const props = defineProps<{
+  info?: any;
+}>();
+const status = ref(true);
+const formData = ref<TypeAddOrUpdate>({});
+
+watch(
+  () => status.value,
+  (newVal: boolean) => {
+    if (!newVal) return;
+    formData.value = cloneDeep(props.info)
+  }
+);
+</script>

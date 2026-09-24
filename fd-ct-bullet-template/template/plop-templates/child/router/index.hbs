@@ -1,0 +1,32 @@
+      {
+        path: '{{dashCase name}}/:id',
+        name: '{{camelCase mainName}}{{properCase name}}',
+        component: () => import('@/views/{{camelCase mainName}}/{{camelCase name}}/index.vue'),
+        {{#if (isOr (isIncludes tool 'add') (isOr (isIncludes table 'edit') (isIncludes table 'view')))}}
+        children: [
+          {{#if (isIncludes tool 'add')}}
+          {
+            path: 'add',
+            name: '{{camelCase mainName}}{{properCase name}}Add',
+            component: () => import('@/views/{{camelCase mainName}}/{{camelCase name}}/components/Add.vue'),
+            meta: { type: 'add' }
+          },
+          {{/if}}
+          {{#if (isIncludes table 'edit')}}
+          {
+            path: 'edit/:subId',
+            name: '{{camelCase mainName}}{{properCase name}}Edit',
+            component: () => import('@/views/{{camelCase mainName}}/{{camelCase name}}/components/Add.vue'),
+            meta: { type: 'edit' }
+          },
+          {{/if}}
+          {{#if (isIncludes table 'view')}}
+          {
+            path: 'view/:subId',
+            name: '{{camelCase mainName}}{{properCase name}}View',
+            component: () => import('@/views/{{camelCase mainName}}/{{camelCase name}}/components/View.vue')
+          }
+          {{/if}}
+        ]
+      {{/if}}
+      },

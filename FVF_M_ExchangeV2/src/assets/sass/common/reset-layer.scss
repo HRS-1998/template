@@ -1,0 +1,11 @@
+.layui-m-layer2 .layui-m-layercont i {
+  display: none !important;
+}
+
+.layui-m-layer2 .layui-m-layercont {
+  background-image: url('../img/icon-loading.gif') !important;
+  background-size: contain;
+  width: 300px !important;
+  height: 300px !important;
+  display: block;
+}

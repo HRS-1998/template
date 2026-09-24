@@ -1,0 +1,159 @@
+.swiper-reviews {
+    position: relative;
+    margin-top: 121px;
+    width: 750px;
+    text-align: center;
+    &-title {
+        margin: 0 auto;
+        width: 700px;
+        height: 144px;
+        font-size: 72px;
+        line-height: 72px;
+        font-family: 'LuckiestGuy';
+        font-weight: bold;
+    }
+    .swiper-container {
+        margin: 33px auto 0;
+        width: 543px;
+        min-height: 292px;
+        overflow: hidden;
+        position: relative;
+        background-color: #fffcf5;
+
+        .swiper-wrapper {
+            display: flex;
+            width: 543px;
+            .swiper-slide {
+                width: 543px;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                &-svg {
+                    width: 253px;
+                    height: 38px;
+                }
+                &-text {
+                    margin-top: 38px;
+                    width: 543px;
+                    min-height: 120px;
+                    font-size: 26px;
+                    line-height: 39px;
+                    color: #000;
+                    text-align: center;
+                }
+                &-headline {
+                    margin-top: 47px;
+                    width: 466px;
+                    height: 4px;
+                    background: #fd8c12;
+                }
+                &-user {
+                    margin-top: 37px;
+                    width: 500px;
+                    height: 32px;
+                    font-size: 32px;
+                    line-height: 32px;
+                    color: #000;
+                    text-align: center;
+                    font-family: 'Montserrat-Bold';
+                }
+            }
+        }
+    }
+    .reviews-btn-prev,
+    .reviews-btn-next {
+        position: absolute;
+        top: calc(50% + 144px);
+        transform: translateY(-50%);
+        z-index: 10;
+        cursor: pointer;
+        img {
+            transition: transform 0.3s linear, -webkit-transform 0.3s linear;
+            display: block;
+            width: 16px;
+            height: 26px;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+    .reviews-btn-prev {
+        left: 26px;
+        img {
+            &:hover {
+                transform: translateX(-5px);
+            }
+        }
+    }
+    .reviews-btn-next {
+        img {
+            &:hover {
+                transform: translateX(5px);
+            }
+        }
+        right: 26px;
+    }
+}
+
+// @media screen and (min-width: 768px) and (max-width: 1399px) {
+//     .swiper-reviews {
+//         width: 100%;
+//         &-title {
+//             width: fit-content;
+//         }
+//     }
+// }
+
+@media screen and (min-width: 1400px) {
+    .swiper-reviews {
+        width: 100%;
+        &-title {
+            width: fit-content;
+        }
+        .swiper-container {
+            width: calc(100% - 620px);
+            .swiper-wrapper {
+                width: 100%;
+                display: flex;
+                .swiper-slide {
+                    width: calc(33.33% - 15px);
+                    margin-right: 15px;
+                    &-svg {
+                        width: 220px;
+                        height: 38px;
+                    }
+                    &-text {
+                        width: 100%;
+                        min-height: 150px; // 这里以5行为最小高度，保证headline对齐
+                        font-size: 20px;
+                        line-height: 30px;
+                    }
+                    &-headline {
+                        width: 90%;
+                    }
+                    &-user {
+                        width: 408px;
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+        .reviews-btn-prev {
+            top: calc(50% + 72px);
+            left: 200px;
+            img {
+                width: 19px;
+                height: 31px;
+            }
+        }
+        .reviews-btn-next {
+            top: calc(50% + 72px);
+            right: 200px;
+            img {
+                width: 19px;
+                height: 31px;
+            }
+        }
+    }
+}

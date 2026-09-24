@@ -1,0 +1,79 @@
+<template>
+  <DialogMode
+    v-model="status"
+    title="{{title}}"
+    width="40%"
+    :confirmLoading="confirmLoading"
+    @confirm="onSubmit"
+  >
+    <el-form :label-width="80" :model="formData" ref="formRef" :rules="formRules">
+      <el-form-item label="店铺名称" prop="Remark">
+        <dart-input v-model="formData.Remark" maxlength="16" clearable trim />
+      </el-form-item>
+    </el-form>
+  </DialogMode>
+</template>
+
+<script lang="ts" setup>
+import { ref, watch } from 'vue';
+import DialogMode from '@/components/DialogMode.vue';
+import { api{{properCase name}}Submit } from '@/api/{{camelCase mainName}}';
+import type { ResponseInfo } from '@/types/common';
+import type { Type{{properCase name}}{{properCase modalType}} } from '@/types/{{camelCase mainName}}';
+import { showMessage, mergeHasSource, to } from '@/utils/index';
+import { cloneDeep } from 'lodash-es';
+import { ErrorCheckTip } from '@/config/index';
+import Bus from '@/assets/js/bus';
+
+const props = withDefaults(defineProps<{ info?: any }>(), { info: {} });
+const status = defineModel<boolean>({ required: true });
+const confirmLoading = ref(false);
+const formRef = ref();
+// 只存储接口需要的字段，字段需全部表明
+const formData = ref<Type{{properCase name}}{{properCase modalType}}>({
+  Remark: '',
+});
+const formRules: Record<string, any> = {
+  Remark: [{ required: true, message: '必填', trigger: 'blur' }],
+};
+
+const onSubmit = () => {
+  if (!formRef.value) return;
+  formRef.value.validate(async (valid: boolean) => {
+    if (!valid) {
+      showMessage(ErrorCheckTip);
+      return;
+    }
+    confirmLoading.value = true;
+
+    const _form = cloneDeep(formData.value);
+    const [err, res] = await to<ResponseInfo>(api{{properCase name}}Submit(_form)).finally(() => {
+      confirmLoading.value = false;
+    });
+
+    if (err) return;
+    const { code } = res!;
+
+    if (code) return;
+    showMessage(`修改成功！`, 'success');
+    onClosed();
+    {{#if (isBoole childName)}}
+    Bus.emit('ut-{{lowerCase childName}}-refresh')
+    {{else}}
+    Bus.emit('ut-refresh')
+    {{/if}}
+  });
+};
+
+const onClosed = (): void => {
+  status.value = false;
+};
+
+watch(
+  () => status.value,
+  (newVal: boolean) => {
+    if (!newVal) return;
+    formData.value = props.info ? cloneDeep(props.info) : { Type: '' };
+  }
+);
+</script>

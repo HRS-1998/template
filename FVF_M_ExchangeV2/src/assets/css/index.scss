@@ -1,0 +1,146 @@
+@use '../sass/common/mixin.scss' as *; // mixin函数
+@use '../sass/common/common.scss' as *; // 公共样式
+.tweetlist {
+    display: none;
+    &__item {
+        padding: 24px;
+        box-sizing: border-box;
+        background-color: #fff;
+        // margin-bottom: 20px;
+        border-bottom: 20px solid #f4f5f6;
+        .userinfo {
+            display: flex;
+            &__portrait {
+                @include wh(84px, 84px);
+                // @include bgimg-stretch('../img/portrait.png');
+                margin-right: 16px;
+                img {
+                    @include wh(100%, 100%);
+                }
+            }
+            &__data {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                .dot {
+                    display: flex;
+                    align-items: center;
+                    span {
+                        position: relative;
+                        margin-right: 20px;
+                        &::after {
+                            position: absolute;
+                            top: 50%;
+                            right: -10px;
+                            transform: translateY(-50%);
+                            content: '';
+                            width: 4px;
+                            height: 4px;
+                            background: #666666;
+                            border-radius: 50%;
+                        }
+                        &:last-child {
+                            &::after {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+                .name {
+                    @include fc(34px, #0f1113);
+                    font-weight: 700;
+                    display: inline-block;
+                    @include ellipsis();
+                    max-width: 300px;
+                }
+                .role {
+                    background-color: #dcebff;
+                    @include fc(24px, #1377ff);
+                    width: 100px;
+                    height: 32px;
+                    border-radius: 8px;
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .date {
+                    @include fc(28px, #666666);
+                }
+                .icon-earth {
+                    display: inline-block;
+                    @include wh(28px, 28px);
+                    @include bgimg-stretch('../img/icon-earth.png');
+                }
+            }
+        }
+        .content {
+            @include fc(32px, #212121);
+            a {
+                color: #1377ff;
+            }
+        }
+        .servicelist {
+            margin-top: 24px;
+            box-sizing: border-box;
+            &--carriers {
+                background-image: var(--servicelist-bg, url('/assets/img/servicelist-bg.png')); /* 默认本地背景图片 */
+                background-size: 700px 700px; 
+                background-position: center;
+                background-repeat: no-repeat;
+                padding: 24px;
+                @include flex(column, nowrap, flex-start, space-between); 
+                width: 700px; 
+                min-height: 700px; 
+                max-width: 100%;
+                image-rendering: -webkit-optimize-contrast; /* 优化清晰度 */
+                image-rendering: crisp-edges; /* 防止模糊插值 */
+            }
+
+            // &-tip {
+            //     @include fc(30px, rgb(255, 255, 255));
+            //     text-align: center;
+            //     padding: 12px 24px;
+            //     border-radius: 8px;
+            //     margin-top: 280px;
+            //     width: 100%;
+            //     box-sizing: border-box;
+            // }
+
+            &__item-pic {
+                img {
+                    @include wh(702px, 500px);
+                }
+            }
+            &-items {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 14px;
+                width: 100%;
+                margin-top: auto;
+                .servicelist__item {
+                    @include wh(280px, 152px);
+                    border-radius: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-self: center;
+                    img {
+                        max-width: 280px;
+                        max-height: 152px;
+                        object-fit: contain;
+                    }
+                }
+            }
+            // 废弃样式，走动态配置
+            // $servicelist: 'tm', 'tnt', 'smart', 'globe';
+            // @each $serviceitem in $servicelist {
+            //     .#{$serviceitem} {
+            //         display: inline-block;
+            //         @include wh(224px, 224px);
+            //         @include bgimg-stretch(
+            //             '../img/servicelist/' + $serviceitem + '.png'
+            //         );
+            //     }
+            // }
+        }
+    }
+}

@@ -1,0 +1,70 @@
+// 获取子页面列表信息
+export const apiGet{{properCase name}}List = (params: any): Promise<any> => {
+  return Http.ajax({
+    method: 'get',
+    url: {{camelCase mainName}}Api.get{{properCase name}}List,
+    data: params
+  });
+};
+{{#if (isOr (isIncludes table 'edit') (isIncludes table 'view'))}}
+
+// 获取子页面列表信息
+export const apiGet{{properCase name}}Info = (params: { id: string | number }): Promise<any> => {
+  return Http.ajax({
+    method: 'get',
+    url: {{camelCase mainName}}Api.get{{properCase name}}Info,
+    data: params
+  });
+};
+{{/if}}
+{{#if (isIncludes table 'edit')}}
+
+// 子页面编辑
+export const apiEdit{{properCase name}} = (params: any): Promise<any> => {
+  return Http.ajax({
+    method: 'post',
+    url: {{camelCase mainName}}Api.edit{{properCase name}},
+    data: params
+  });
+};
+{{/if}}
+{{#if (isIncludes tool 'add')}}
+
+// 子页面添加
+export const apiAdd{{properCase name}} = (params: any): Promise<any> => {
+  return Http.ajax({
+    method: 'post',
+    url: {{camelCase mainName}}Api.add{{properCase name}},
+    data: params
+  });
+};
+{{/if}}
+{{#if (isIncludes table 'delete')}}
+
+// 子页面删除
+export const apiDelete{{properCase name}} = (params: { id: number }): Promise<any> => {
+  return Http.ajax({
+    method: 'get',
+    url: {{camelCase mainName}}Api.delete{{properCase name}},
+    data: params
+  });
+};
+{{/if}}
+{{#if (isIncludes table 'enable')}}
+
+// 子页面禁/启用
+export const apiChangeStatus{{properCase name}} = (params: { id: number,status:number | boolean }): Promise<any> => {
+  return Http.ajax({
+    method: 'post',
+    url: {{camelCase mainName}}Api.changeStatus{{properCase name}},
+    data: params
+  });
+};
+{{/if}}
+{{#if (isIncludes tool 'export')}}
+
+// 子页面导出
+export const apiExport{{properCase name}} = (params: any): string => {
+   return {{camelCase mainName}}Api.export + '?' + objectToUrlParams(params);
+};
+{{/if}}

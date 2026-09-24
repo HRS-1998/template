@@ -1,0 +1,69 @@
+<template>
+  <DrawerMode
+    v-model="status"
+    size="100%"
+    is-width-all
+    :is-footer="false"
+    @closed="onClosed"
+  >
+    <template #header>
+      <slot name="header">
+        <div style="width: 100%">
+          <span class="primary mr5" @click="onClosed" style="cursor: pointer"> 主页面 </span>
+          <span class="mr5">/</span>
+          <span>二级子页面</span>
+        </div>
+      </slot>
+    </template>
+    {{#if (isInequality search 'noSearch')}}
+    <Search ref="searchRef" @search="onSearch" />
+    {{/if}}
+    {{#if (isArrayNoEmpty tool)}}
+    <Tool{{#if (isIncludes tool 'export')}} :data="searchDataHistory"{{/if}} />
+    {{/if}}
+    <Table
+      v-model:data="tableData"
+      :loading="loading"
+      @page-change="onPageChange"
+      @size-change="onPageSizeChange"
+    />
+    <router-view />
+  </DrawerMode>
+</template>
+
+<script lang="ts" setup> 
+import { ref } from 'vue';
+import DrawerMode from '@/components/DrawerMode.vue';
+{{#if (isInequality search 'noSearch')}}
+import Search from './components/Search.vue';
+{{/if}}
+{{#if (isArrayNoEmpty tool)}}
+import Tool from './components/Tool.vue';
+{{/if}}
+import Table from './components/Table.vue';
+import { apiGet{{properCase name}}List } from '@/api/{{camelCase mainName}}';
+import useRefreshTable from '@/hooks/use-refreshTable';
+import useCommon from '@/hooks/use-common';
+
+const { router } = useCommon();
+const status = ref(true);
+{{#if (isInequality search 'noSearch')}}
+const searchRef = ref(null);
+{{/if}}
+const { {{#if (isInequality search 'noSearch')}}onSearch, {{/if}}loading, tableData, onPageChange, onPageSizeChange{{#if (isIncludes tool 'export')}}, searchDataHistory{{/if}} } = useRefreshTable({
+  ajax: apiGet{{properCase name}}List,
+  bindEvent:'ut-{{lowerCase name}}-refresh',
+  {{#if (isInequality search 'noSearch')}}
+  searchRef
+  {{else}}
+  searchData: {
+    PageIndex: 1,
+    PageSize: 10
+  },
+  {{/if}}
+});
+
+const onClosed = (): void => {
+  router.push({name: '{{camelCase mainName}}' });
+};
+</script>

@@ -1,0 +1,20 @@
+.video-container {
+    margin-top: 149px;
+    width: 750px;
+    height: 380px;
+    text-align: center;
+    .video {
+        width: 662px;
+        height: 380px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .video-container {
+        margin-top: 101px;
+        .video {
+            width: 88%;
+            height: auto;
+        }
+    }
+}

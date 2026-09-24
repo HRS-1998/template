@@ -1,0 +1,158 @@
+<template>
+  <dart-table
+    :data="data.List"
+    :loading="loading"
+    :current-page="data.PageIndex"
+    :page-size="data.PageSize"
+    :page-total="data.RecordCount"
+    border
+    page-layout="total, sizes, prev, pager, next, jumper"
+    @page-current-change="onPageCurrentChange"
+    @page-size-change="onPageSizeChange"
+  >
+    <dart-table-column label="配置项" prop="ConfigTypeName" width="130" />
+    <dart-table-column label="配置值" prop="ConfigValue" />
+    <dart-table-column label="操作人" prop="LastOperateName" />
+    <dart-table-column
+      label="操作时间"
+      prop="LastUpdateTime"
+      useType="date"
+      useArg="dateTime"
+      width="160"
+    />
+    {{#if (isArrayNoEmpty table)}}
+    <dart-table-column label="操作" width="240" fixed="right">
+      <template #default="{ row }">
+        {{#if  (isIncludes table 'view')}}
+        <el-button type="primary" link icon="Document" @click="onView(row)"> 查看 </el-button>
+        {{/if}}
+        {{#if  (isIncludes table 'edit')}}
+        <el-button
+          type="primary"
+          link
+          icon="Edit"
+          @click="onEdit(row)"
+          v-if="$dart.permission.is('{{camelCase name}}Edit')"
+        >
+          编辑
+        </el-button>
+        {{/if}}
+        {{#if (isIncludes table 'delete')}}
+        <CommonBtn
+          name="删除"
+          btn-icon="Delete"
+          :params="{ id: row.Id }"
+          :ajax="apiDelete"
+          v-if="$dart.permission.is('{{camelCase name}}Edit')"
+        />
+        {{/if}}
+        {{#if (isIncludes table 'enable')}}
+        <CommonBtn
+          :name="row.status === 1 ? '禁用' : '启用'"
+          :btn-icon="row.status === 1 ? 'CircleClose' : 'CircleCheck'"
+          :params="{ id: row.Id, status: row.status === 1 ? 2 : 1 }"
+          :ajax="apiChangeStatus"
+          v-if="$dart.permission.is('{{camelCase name}}Edit')"
+        />
+        {{/if}}
+      </template>
+    </dart-table-column>
+    {{/if}}
+  </dart-table>
+  {{#if ( isEqual comType 'Dialog')}}
+  {{#if (isIncludes table 'edit')}}
+  <Add v-model="dialogAddVisible" :info="currRow" />
+  {{/if}}
+  {{#if (isIncludes table 'view')}}
+  <View v-model="dialogViewVisible" :info="currRow" />
+  {{/if}}
+  {{/if}}
+</template>
+
+<script setup lang="ts">
+{{#if (isAnd (isEqual comType 'Dialog') (isOr (isIncludes table 'edit') (isIncludes table 'view')))}}
+import { ref } from 'vue';
+{{#if (isIncludes table 'edit')}}
+import Add from './Add.vue';
+{{/if}}
+{{#if (isIncludes table 'view')}}
+import View from './View.vue';
+{{/if}}
+{{/if}}
+{{#if (isOr (isIncludes table 'delete') (isIncludes table 'enable'))}}
+import CommonBtn from '@/components/CommonBtn.vue';
+{{/if}}
+{{#if (isIncludes table 'delete')}}
+import { apiDelete } from '@/api/{{camelCase name}}';
+{{/if}}
+{{#if (isIncludes table 'enable')}}
+import { apiChangeStatus } from '@/api/{{camelCase name}}';
+{{/if}}
+{{#if (isArrayNoEmpty table)}}
+import useCommon from '@/hooks/use-common';
+{{/if}}
+
+defineProps<{
+  data: any;
+  loading: boolean;
+}>();
+const emit = defineEmits(['page-change', 'size-change']);
+{{#if (isArrayNoEmpty table)}}
+const { $dart{{#if (isAnd (isEqual comType 'Drawer') (isOr (isIncludes table 'edit') (isIncludes table 'view')))}}, router{{/if}} } = useCommon();
+{{/if}}
+{{#if (isEqual comType 'Dialog')}}
+{{#if (isIncludes table 'edit')}}
+const dialogAddVisible = ref(false);
+{{/if}}
+{{#if (isIncludes table 'view')}}
+const dialogViewVisible = ref(false);
+{{/if}}
+{{#if (isOr (isIncludes table 'edit') (isIncludes table 'view'))}}
+const currRow = ref({});
+{{/if}}
+{{/if}}
+
+const onPageCurrentChange = (index: number): void => {
+  emit('page-change', index);
+};
+
+const onPageSizeChange = (size: number): void => {
+  emit('size-change', size);
+};
+{{#if (isIncludes table 'edit')}}
+{{#if ( isEqual comType 'Dialog')}}
+
+const onEdit = (row: any) => {
+  dialogAddVisible.value = true;
+  currRow.value = row;
+};
+{{/if}}
+{{#if ( isEqual comType 'Drawer')}}
+
+const onEdit = (row: any) => {
+  router.push({
+    name: '{{camelCase name}}Edit',
+    params: { id: row.Id }
+  });
+};
+{{/if}}
+{{/if}}
+{{#if (isIncludes table 'view')}}
+{{#if ( isEqual comType 'Dialog')}}
+
+const onView = (row: any) => {
+  dialogViewVisible.value = true;
+  currRow.value = row;
+};
+{{/if}}
+{{#if ( isEqual comType 'Drawer')}}
+
+const onView = (row: any) => {
+  router.push({
+    name: '{{camelCase name}}View',
+    params: { id: row.Id }
+  });
+};
+{{/if}}
+{{/if}}
+</script>

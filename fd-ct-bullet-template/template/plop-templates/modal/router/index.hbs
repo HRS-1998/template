@@ -1,0 +1,9 @@
+      {
+        path: '{{dashCase name}}',
+        name: '{{camelCase mainName}}{{properCase childName}}{{properCase name}}',
+        {{#if (isBoole childName)}}
+        component: () => import('@/views/{{camelCase mainName}}/components/{{camelCase childName}}/{{properCase name}}.vue')
+        {{else}}
+        component: () => import('@/views/{{camelCase mainName}}/components/{{properCase name}}.vue')
+        {{/if}}
+      },

@@ -1,0 +1,135 @@
+@use './common/mixin.scss' as *; // mixin函数
+.header {
+    width: 750px;
+    height: 400px;
+    background-image: url('../img/header-bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: hidden;
+    .header-title {
+        height: 60px;
+        margin-top: 88px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .logo {
+            width: 60px;
+            height: 60px;
+
+            img {
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+                -o-object-fit: cover;
+            }
+        }
+        .title-text {
+            @include fc(40px, #fff);
+            // display: flex;
+            // align-items: flex-end;
+            display: table-cell;
+            vertical-align: bottom;
+
+            margin-left: 20px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+    }
+    .header-sub-title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        height: 48px;
+        line-height: 48px;
+        width: 100%;
+        text-align: center;
+        .welcome {
+            @include fc(32px, #faff8a);
+        }
+        .sub-title-text {
+            @include fc(32px, #fff);
+            margin-left: 28px;
+            margin-right: 28px;
+        }
+        .logout {
+            @include wh(148px, 38px);
+            background-image: url('../img/logout.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            cursor: pointer;
+        }
+        .btn-login {
+            margin-left: 28px;
+            width: 238px;
+            height: 48px;
+            line-height: 1.5;
+            @include fc(30px, #ff5a3b);
+            font-weight: 500;
+            background: #ffe816;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+    }
+    .user-gold {
+        @include fc(28px, #000);
+        padding: 0 22px;
+        margin: 20px auto 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 702px;
+
+        height: 70px;
+        box-sizing: border-box;
+        border-radius: 60px;
+        background: #fff;
+        &-left {
+            display: flex;
+            align-items: center;
+            &__icon {
+                width: 64px;
+                height: 64px;
+                img {
+                    width: 64px;
+                    height: 64px;
+                    object-fit: cover;
+                }
+            }
+            &__value {
+                margin-left: 14px;
+            }
+        }
+    }
+    .user-gold-login {
+        @include fc(28px, #000);
+        padding: 0 22px;
+        margin: 20px auto 0;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        width: 702px;
+        height: 70px;
+        box-sizing: border-box;
+        border-radius: 60px;
+        background: #fff;
+        &-left {
+            display: flex;
+            align-items: center;
+            &__icon {
+                width: 64px;
+                height: 64px;
+                img {
+                    width: 64px;
+                    height: 64px;
+                    object-fit: cover;
+                }
+            }
+        }
+        &-right {
+            font-weight: 500;
+            width: 100%;
+            text-align: center;
+        }
+    }
+}

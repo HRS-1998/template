@@ -1,0 +1,74 @@
+.footer-container {
+    display: none;
+    position: fixed;
+    height: 150px;
+    width: 750px;
+    z-index: 999;
+    bottom: 0;
+    padding: 0 24px;
+    box-sizing: border-box;
+    // display: flex;
+    align-items: center;
+    background: linear-gradient(-90deg, #ff9933 15%, #ff3f3f 84%), #ffffff;
+    .footer-content {
+        display: flex;
+        align-items: center;
+        &__pic {
+            width: 128px;
+            height: 128px;
+            img {
+                width: 128px;
+                height: 128px;
+                border-radius: 8px;
+            }
+        }
+        &__dec {
+            margin-left: 12px;
+            margin-right: 8px;
+            width: 290px;
+            height: 108px;
+            text-align: left;
+            .title {
+                margin-bottom: 6px;
+                font-weight: 700;
+                font-size: 32px;
+                color: #fff;
+                height: 46px;
+                line-height: 46px;
+            }
+            .sub-title {
+                font-weight: 350;
+                font-size: 20px;
+                color: #ffcdcd;
+                height: 28px;
+                line-height: 28px;
+            }
+        }
+        &__btn {
+            margin-top: 4px;
+            width: 258px;
+            height: 94px;
+            background-image: url(../img/download-btn.png);
+            background-size: cover;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            a {
+                text-decoration: none;
+                color: #ffffff;
+            }
+        }
+        &__icon {
+            position: absolute;
+            right: 2px;
+            top: -4px;
+            width: 70px;
+            height: 70px;
+            background-image: url('../img/download-icon.png');
+            background-size: cover;
+        }
+    }
+}
+
+.footer-show {
+    display: flex;
+}

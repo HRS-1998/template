@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-599MTK65');</script>
+    <!-- End Google Tag Manager -->
+    <title>loading</title>
+    <!-- <link rel="shortcut icon" href="./assets/favicon.ico" /> -->
+    <link rel="shortcut icon" href="" />
+    <link ref="stylesheet" href="./assets/libs/swiper/swiper.css">
+    </link>
+    <!-- <link ref="stylesheet" href="./assets/libs/swiper/animate.css"></link> -->
+    <link rel="stylesheet" href="./assets/libs/layer_mobile/need/layer.css" />
+    <link rel="stylesheet" href="./assets/css/common-bb5440273c.css" />
+    <link rel="stylesheet" href="./assets/css/index-88560060b3.css" />
+
+    <script>
+        !(function (e, t) {
+            function i() {
+                var n = t.documentElement;
+                var w =
+                    n.clientWidth > n.clientHeight
+                        ? n.clientHeight
+                        : n.clientWidth;
+                var cw = w < 320 ? 320 : w;
+                var e = cw / 7.5;
+                e = e > 60 ? 60 : e;
+                n.style.fontSize = e + 'px';
+            }
+
+            i();
+            e.addEventListener('resize', i);
+        })(window, document);
+    </script>
+</head>
+
+<body>
+
+    <div class="top" id="J-top"></div>
+    <div class="swiper" id="J-swiper"></div>
+    <div class="broadcast-container" id="J-broadcast-container"></div>
+    <div class="store-container" id="J-store-container"></div>
+    <div class="footer-container" id="J-footer-container"></div>
+    <!-- 加载指示器 -->
+    <div id="login-loading" style="display: none">
+        <div style="text-align: center">
+            <div style="
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+          "></div>
+            <div>处理中...</div>
+        </div>
+    </div>
+
+    <script src="./assets/libs/jquery-1.8.2.js "></script>
+    <script src="./assets/libs/md5.js"></script>
+    <script src="./assets/libs/layer_mobile/layer.js"></script>
+    <script src="./assets/libs/template.js"></script>
+    <script src="./assets/libs/swiper/swiper.js"></script>
+    <script src="./assets/js/common/tools-670f211ab2.js"></script>
+    <script src="./assets/js/common/index-3f3a163a3a.js"></script>
+    <script src="./assets/js/index/app-f9340f79c6.js "></script>
+
+
+       <!-- Google Tag Manager (noscript)  -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-599MTK65" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google tag (gtag.js)  正式环境页面gm4埋点-->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X1BL4P2QJ1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-X1BL4P2QJ1');
+    </script>
+    <!-- google登录和facebook登录 -->
+    <!-- Google 登录 SDK -->
+    <script src="https://accounts.google.com/gsi/client" onload="onGoogleSDKLoad()" onerror="onGoogleSDKError()" async
+        defer></script>
+    <script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0&appId=1549405732353520"
+        onload="onFacebookSDKLoad()" onerror="onFacebookSDKError()"></script>
+    <script>
+        // 全局应用状态管理
+        var appState = {
+            isLoading: false,
+            isFacebookOrGoogleLogin: '',
+            googleCredential: null,
+            facebookAccessToken: null,
+        };
+
+        // login-loading
+        function showLoading() {
+            appState.isLoading = true;
+            document.getElementById('login-loading').style.display = 'flex';
+        }
+
+        function hideLoading() {
+            appState.isLoading = false;
+            document.getElementById('login-loading').style.display = 'none';
+        }
+
+
+        // SDK 加载事件处理
+        function onFacebookSDKLoad() {
+            console.log('Facebook SDK加载成功');
+        }
+
+        function onFacebookSDKError() {
+            console.error('Facebook SDK加载失败');
+        }
+
+        function onGoogleSDKLoad(boolean) {
+            if (!boolean) return;
+            try {
+                google.accounts.id.initialize({
+                    client_id:
+                        '1086228825399-dq77cs9iq6fesqmg5og2fa6b3hgjeio2.apps.googleusercontent.com',
+                    callback: handleGoogleLogin,
+                    auto_select: false,
+                    cancel_on_tap_outside: true,
+                });
+
+                // google.accounts.id.renderButton(
+                //     document.getElementById('J-google-login'),
+                //     {
+                //         theme: 'outline',
+                //         size: 'large',
+                //         width: 250,
+                //     }
+                // );
+            } catch (e) {
+                console.error('初始化Google登录失败:', e);
+            }
+        }
+
+        function onGoogleSDKError() {
+            console.error('Google SDK加载失败');
+        }
+
+        // Facebook 登录功能
+        window.fbAsyncInit = function () {
+            try {
+                FB.init({
+                    appId: '1549405732353520',
+                    cookie: true,
+                    xfbml: true,
+                    version: 'v19.0', // 使用与SDK加载相同的版本
+                });
+
+                // 检查登录状态
+                FB.getLoginStatus(function (response) {
+                    statusChangeCallback(response);
+                });
+            } catch (error) {
+                console.error('Facebook SDK初始化失败:', error);
+            }
+        };
+
+        function statusChangeCallback(response) {
+            console.log('Facebook登录状态:', response);
+            if(appState.facebookAccessToken) return;
+             if (response.status === 'connected') {
+                // 用户已登录并已授权应用
+                appState.facebookAccessToken = response.authResponse.accessToken;
+                $.ajax({
+                    type: 'POST',
+                    url: gcommon.url.websiteLogin,
+                    data: JSON.stringify({
+                        OpenId: response.authResponse.userID,
+                        Token: response.authResponse.accessToken,
+                        PartnerAppId: '1549405732353520',
+                        ThirdType: 10,
+                        DeviceId: ""
+                    }), // 该接口不校验登录状态
+                    dataType: 'json',
+                    success: function (res) {
+                        if (gcommon.isNotLogin(res.Code)) {
+                            deleteCookie();
+                            return;
+                        }
+                        if (res.Code !== 0) {
+                            gcommon.toastText(res.Message);
+                            return;
+                        }
+                        gtools.cookies.setCookie('UserId', res.Data.UserId);
+                        gtools.cookies.setCookie(
+                            'NickName',
+                            encodeURIComponent(res.Data.NickName)
+                        );
+                        gtools.cookies.setCookie('UserToken', res.Data.UserToken);
+                        gtools.cookies.setCookie('VoucherNum', res.Data.VoucherNum);
+                        gtools.cookies.setCookie('VoucherValue', res.Data.VoucherValue);
+                        window.location.href =
+                            './index.html' + `?_t='+${new Date().getTime()}`;
+                    },
+                    error: function (xhr, status, error) {
+                        var msg =
+                            xhr.statusText === 'timeout' ? 'timeout' : 'server error';
+                        gcommon.toastText(msg);
+                    }
+                });
+
+            } else {
+                // 用户未登录
+                appState.facebookAccessToken = null;
+
+            }
+            hideLoading();
+        }
+
+        function facebookLogin() {
+            showLoading();
+            FB.login(
+                function (response) {
+                    console.log('Facebook登录响应:', response);
+
+                    if (response.authResponse) {
+                        statusChangeCallback(response);
+                    } else if (response.error) {
+                        console.error('Facebook登录错误:', response.error);
+                        hideLoading();
+                    } else {
+                        console.log('Facebook登录取消或失败');
+                        hideLoading();
+                    }
+                },
+                { scope: 'public_profile,email' }
+            );
+        }
+
+        function facebookLogout() {
+            showLoading();
+
+            FB.logout(function (response) {
+                statusChangeCallback(response);
+            });
+        }
+
+        // Google 登录相关函数
+        function handleGoogleLogin(response) {
+            showLoading();
+
+            console.log('Google 登录响应:', response);
+
+            if (response.credential) {
+
+                appState.googleCredential = response.credential;
+                const profile = parseJwt(response.credential);
+                $.ajax({
+                    type: 'POST',
+                    url: gcommon.url.websiteLogin,
+                    data: JSON.stringify({
+                        OpenId: profile.sub,
+                        Token: response.credential,
+                        PartnerAppId:"1086228825399",
+                        ThirdType: 20,
+                        DeviceId: ""
+                    }), // 该接口不校验登录状态
+                    dataType: 'json',
+                    success: function (res) {
+                        if (gcommon.isNotLogin(res.Code)) {
+                            deleteCookie();
+                            return;
+                        }
+                        if (res.Code !== 0) {
+                            gcommon.toastText(res.Message);
+                            return;
+                        }
+                        gtools.cookies.setCookie('UserId', res.Data.UserId);
+                        gtools.cookies.setCookie(
+                            'NickName',
+                            encodeURIComponent(res.Data.NickName)
+                        );
+                        gtools.cookies.setCookie('UserToken', res.Data.UserToken);
+                        gtools.cookies.setCookie('VoucherNum', res.Data.VoucherNum);
+                        gtools.cookies.setCookie('VoucherValue', res.Data.VoucherValue);
+                        window.location.href =
+                            './index.html' + `?_t='+${new Date().getTime()}`;
+                    },
+                    error: function (xhr, status, error) {
+                        var msg =
+                            xhr.statusText === 'timeout' ? 'timeout' : 'server error';
+                        gcommon.toastText(msg);
+                    }
+                });
+
+
+
+            } else if (response.error) {
+                console.error('Google登录错误:', response.error);
+
+            } else {
+                console.log('Google登录失败');
+            }
+            hideLoading();
+        }
+
+        function handleGoogleLogout() {
+            try {
+                // 清除Google登录状态
+                google.accounts.id.disableAutoSelect();
+                // 清除本地存储的凭证
+                appState.googleCredential = null;
+                // 更新UI
+                document.getElementById('googleSignInDiv').style.display = 'block';
+                document.getElementById('googleLogoutBtn').style.display = 'none';
+            } catch (error) {
+                console.error('Google登出失败:', error);
+            }
+        }
+
+    </script>
+
+</body>
+
+</html>

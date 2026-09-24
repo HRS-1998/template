@@ -1,0 +1,13 @@
+export type TypeSearchInfo<T = number | string> = {
+  ConfigValue?: string;
+  PageIndex?: T;
+  PageSize?: T;
+};
+
+export type TypeAddOrUpdate<T = number | string> = {
+  Id?: T;
+  Remark?: string;
+  Type?: T;
+  TypeName?: T;
+  Checks?: T[];
+};

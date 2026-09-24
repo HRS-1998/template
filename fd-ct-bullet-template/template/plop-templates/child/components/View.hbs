@@ -1,0 +1,53 @@
+<template>
+  <DrawerMode
+    v-model="status"
+    size="60%"
+    title="查看"
+    :loading="loading"
+    :is-edit="false"
+    @cancel="onClosed"
+    @closed="onClosed"
+  >
+    <el-form :label-width="100" :model="formData">
+      <el-form-item label="配置值">
+        <span>123456</span>
+      </el-form-item>
+    </el-form>
+  </DrawerMode>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+import DrawerMode from '@/components/DrawerMode.vue';
+import { apiGet{{properCase name}}Info } from '@/api/{{camelCase mainName}}';
+import type { ResponseInfo } from '@/types/common';
+import type { TypeAddOrUpdate{{properCase name}} } from '@/types/{{camelCase mainName}}';
+import { to } from '@/utils/index';
+import useCommon from '@/hooks/use-common';
+
+const { route, router } = useCommon();
+const status = ref(true);
+const loading = ref(false);
+const formData = ref<TypeAddOrUpdate{{properCase name}}>({});
+
+const onClosed = (): void => {
+  router.push({ name: '{{camelCase mainName}}{{properCase name}}' });
+};
+
+const getInfo = async () => {
+  loading.value = true;
+  const [err, res] = await to<ResponseInfo>(apiGet{{properCase name}}Info({ id: route.params.subId })).finally(() => {
+    loading.value = false;
+  });
+
+ if (err) return;
+  const { code, data } = res!;
+  
+  if (code) return;
+  formData.value = {
+    ...data
+  };
+};
+
+getInfo();
+</script>

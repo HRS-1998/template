@@ -1,0 +1,40 @@
+<template>
+  <el-row class="mb10">
+    <el-col :span="24" class="tr">
+      {{#if (isIncludes tool 'export')}}
+      <el-button plain icon="Download" @click="onExport" v-if="$dart.permission.is('{{camelCase mainName}}Edit')"> 
+        导出 
+      </el-button>
+      {{/if}}
+      {{#if (isIncludes tool 'add')}}
+      <el-button plain icon="Plus" @click="onAdd" v-if="$dart.permission.is('{{camelCase mainName}}Edit')"> 
+        新增 
+      </el-button>
+      {{/if}}
+    </el-col>
+  </el-row>
+</template>
+
+<script lang="ts" setup>
+import useCommon from '@/hooks/use-common';
+{{#if (isIncludes tool 'export')}}
+import { apiExport{{properCase name}} } from '@/api/{{camelCase mainName}}';
+
+const props = defineProps<{
+  data: any;
+}>();
+{{/if}}
+const { $dart{{#if (isIncludes tool 'add')}}, router{{/if}} } = useCommon();
+{{#if (isIncludes tool 'add')}}
+
+const onAdd = () => {
+  router.push({ name: '{{camelCase mainName}}{{properCase name}}Add' });
+};
+{{/if}}
+{{#if (isIncludes tool 'export')}}
+
+const onExport = () => {
+  apiExport{{properCase name}}(props.data);
+};
+{{/if}}
+</script>

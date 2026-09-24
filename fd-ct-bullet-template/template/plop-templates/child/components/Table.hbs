@@ -1,0 +1,114 @@
+<template>
+  <dart-table
+    :data="data.List"
+    :loading="loading"
+    :current-page="data.PageIndex"
+    :page-size="data.PageSize"
+    :page-total="data.RecordCount"
+    border
+    page-layout="total, sizes, prev, pager, next, jumper"
+    @page-current-change="onPageCurrentChange"
+    @page-size-change="onPageSizeChange"
+  >
+    <dart-table-column label="配置项" prop="ConfigTypeName" width="130" />
+    <dart-table-column label="配置值" prop="ConfigValue" />
+    <dart-table-column label="操作人" prop="LastOperateName" />
+    <dart-table-column
+      label="操作时间"
+      prop="LastUpdateTime"
+      useType="date"
+      useArg="dateTime"
+      width="160"
+    />
+    {{#if (isArrayNoEmpty table)}}
+    <dart-table-column label="操作" width="240" fixed="right">
+      <template #default="{ row }">
+         {{#if  (isIncludes table 'view')}}
+        <el-button type="primary" link icon="Document" @click="onView(row.Id)"> 查看 </el-button>
+        {{/if}}
+        {{#if  (isIncludes table 'edit')}}
+        <el-button
+          type="primary"
+          link
+          icon="Edit"
+          @click="onEdit(row.Id)"
+          v-if="$dart.permission.is('{{camelCase mainName}}Edit')"
+        >
+          编辑
+        </el-button>
+        {{/if}}
+        {{#if (isIncludes table 'delete')}}
+        <CommonBtn
+          name="删除"
+          btn-icon="Delete"
+          bind-events="ut-{{lowerCase name}}-refresh"
+          :params="{ id: row.Id }"
+          :ajax="apiDelete{{properCase name}}"
+          v-if="$dart.permission.is('{{camelCase mainName}}Edit')"
+        />
+        {{/if}}
+        {{#if (isIncludes table 'enable')}}
+        <CommonBtn
+          bindEvents="ut-{{lowerCase name}}-refresh"
+          :btn-icon="row.status === 1 ? 'CircleCheck' : 'CircleClose'"
+          :name="row.status === 1 ? '禁用' : '启用'"
+          :params="{ id: row.Id, status: row.status === 1 ? 2 : 1 }"
+          :ajax="apiChangeStatus{{properCase name}}"
+          v-if="$dart.permission.is('{{camelCase mainName}}Edit')"
+        />
+        {{/if}}
+      </template>
+    </dart-table-column>
+    {{/if}}
+  </dart-table>
+</template>
+
+<script setup lang="ts">
+{{#if ( isOr (isIncludes table 'delete') (isIncludes table 'enable'))}}
+import CommonBtn from '@/components/CommonBtn.vue';
+{{/if}}
+{{#if (isIncludes table 'delete')}}
+import { apiDelete{{properCase name}} } from '@/api/{{camelCase mainName}}';
+{{/if}}
+{{#if (isIncludes table 'enable')}}
+import { apiChangeStatus{{properCase name}} } from '@/api/{{camelCase mainName}}';
+{{/if}}
+{{#if (isArrayNoEmpty table)}}
+import useCommon from '@/hooks/use-common';
+{{/if}}
+
+defineProps<{
+  data: any;
+  loading: boolean;
+}>();
+const emit = defineEmits(['page-change', 'size-change']);
+{{#if (isArrayNoEmpty table)}}
+const { $dart{{#if (isOr (isIncludes table 'edit') (isIncludes table 'view'))}}, router{{/if}} } = useCommon();
+{{/if}}
+
+const onPageCurrentChange = (index: number): void => {
+  emit('page-change', index);
+};
+
+const onPageSizeChange = (size: number): void => {
+  emit('size-change', size);
+};
+{{#if (isIncludes table 'edit')}}
+
+const onEdit = (id: number) => {
+  router.push({
+    name: '{{camelCase mainName}}{{properCase name}}Edit',
+    params: { subId: id }
+  });
+};
+{{/if}}
+{{#if (isIncludes table 'view')}}
+
+const onView = (id: number) => {
+  router.push({
+    name: '{{camelCase mainName}}{{properCase name}}View',
+    params: { subId: id }
+  });
+};
+{{/if}}
+</script>

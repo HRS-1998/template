@@ -1,0 +1,113 @@
+.footer-container {
+    position: relative;
+    margin-top: 111px;
+    width: 750px;
+    height: 830px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        object-position: top center;
+        z-index: 0;
+    }
+    &-title {
+        position: absolute;
+        top: 84px;
+        height: 176px;
+        width: 750px;
+        z-index: 1;
+        .main-title {
+            margin: 0 auto;
+            width: 500px;
+            font-size: 40px;
+            font-weight: bold;
+            line-height: 40px;
+            text-align: center;
+            color: #fff;
+            font-family: 'LuckiestGuy';
+        }
+        .sub-title {
+            margin: 17px auto 0;
+            width: 600px;
+            font-size: 26px;
+            line-height: 39px;
+            color: #fff;
+            text-align: center;
+        }
+    }
+    &-btn {
+        position: absolute;
+        top: 304px;
+        width: 231px;
+        height: 72px;
+        background-image: url('../img/mobile/footer-btn.png');
+        background-size: cover;
+        background-position: center;
+        z-index: 1;
+        transition: transform 0.3s, webkit-transform 0.3s;
+        &:hover {
+            transform: scale(1.1);
+        }
+        a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    &-logo {
+        position: absolute;
+        left: 62px;
+        bottom: 169px;
+        width: 194px;
+        height: 117px;
+        background-image: url('../img/mobile/footer-logo.png');
+        background-size: cover;
+        background-position: center;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .footer-container {
+        width: 100%;
+        height: 0;
+        padding-bottom: 65%;
+        &-bg {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            object-position: top center;
+        }
+        &-title {
+            width: 100%;
+            top: 16.7%;
+            .main-title {
+                width: fit-content;
+            }
+            .sub-title {
+                width: fit-content;
+                font-size: 16px;
+                line-height: 16px;
+            }
+        }
+        &-btn {
+            top: 35%;
+        }
+        &-logo {
+            bottom: 16.7%;
+        }
+    }
+}
+
+@media screen and (min-widht: 1280px) {
+    .footer-container {
+        &-btn {
+            top: 301px;
+        }
+    }
+}

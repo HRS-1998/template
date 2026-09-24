@@ -1,0 +1,76 @@
+// 话费充值弹窗样式
+
+.exchange-default-dialog {
+    position: relative;
+    width: 676px;
+    // height: 932px;
+    background: linear-gradient(180deg, #ffe2e2 15%, #ffeddb 84%), #ffffff;
+    box-shadow: 0px 10px 10px 0px rgba(255, 142, 29, 0.5);
+    border-radius: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .dg__close {
+        position: absolute;
+        top: 28px;
+        right: 28px;
+        width: 48px;
+        height: 48px;
+        background-image: url('../img/btn-close.png');
+        background-size: cover;
+        cursor: pointer;
+    }
+
+    .dg__con {
+        .icon {
+            margin: -94px auto 8px;
+            width: 240px;
+            height: 240px;
+            img {
+                width: 240px;
+                height: 240px;
+                object-fit: cover;
+                -o-object-fit: cover;
+            }
+        }
+
+        .title {
+            text-align: center;
+            font-size: 44px;
+            font-weight: 500;
+            color: #3d3d3d;
+            margin-bottom: 100px;
+        }
+
+        .btn {
+            margin-bottom: 24px;
+            width: 600px;
+            height: 96px;
+            line-height: 96px;
+            background: #ff3f3f;
+            color: white;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 36px;
+            text-align: center;
+            cursor: pointer;
+            &:hover {
+                background: linear-gradient(135deg, #ff4a4a, #ff2b2b);
+            }
+
+            &:active {
+                transform: translateY(1px);
+            }
+        }
+        .tips {
+            margin: 0 auto 48px;
+            width: 550px;
+            height: 96px;
+            font-weight: 350;
+            font-size: 32px;
+            color: #3d3d3d;
+            line-height: 48px;
+            text-align: center;
+        }
+    }
+}

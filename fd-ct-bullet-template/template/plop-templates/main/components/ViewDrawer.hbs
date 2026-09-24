@@ -1,0 +1,59 @@
+<template>
+  <DrawerMode
+    v-model="status"
+    size="60%"
+    title="查看"
+    :loading="loading"
+    :is-edit="false"
+    @cancel="onClosed"
+    @closed="onClosed"
+  >
+    <el-form :label-width="100" :model="formData">
+      <el-form-item label="配置值">
+        <span>123456</span>
+      </el-form-item>
+      <el-form-item label="备注">
+        <dart-textarea-content :value="input" />
+      </el-form-item>
+    </el-form>
+  </DrawerMode>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+import DrawerMode from '@/components/DrawerMode.vue';
+import { apiGetInfo } from '@/api/{{camelCase name}}';
+import type { ResponseInfo } from '@/types/common';
+import type { TypeAddOrUpdate } from '@/types/{{camelCase name}}';
+import { to } from '@/utils/index';
+import useCommon from '@/hooks/use-common';
+
+const { route, router } = useCommon();
+const status = ref(true);
+const loading = ref(false);
+const formData = ref<TypeAddOrUpdate>({});
+const input = ref(
+  'HTML 是用来描述网页的一种语言。\nHTML 指的是超文本标记语言: HyperText Markup Language\nHTML 不是一种编程语言，而是一种标记语言\n标记语言是一套标记标签 (markup tag)\nHTML 使用标记标签来描述网页\nHTML 文档包含了HTML 标签及文本内容\nHTML文档也叫做 web 页面'
+);
+
+const onClosed = (): void => {
+  router.push({ name: '{{camelCase name}}' });
+};
+
+const getInfo = async () => {
+  loading.value = true;
+  const [err, res] = await to<ResponseInfo>(apiGetInfo({ id: route.params.id })).finally(() => {
+    loading.value = false;
+  });
+
+  if (err) return;
+  const { code, data } = res!;
+
+  if (code) return;
+  formData.value = {
+    ...data
+  };
+};
+
+getInfo();
+</script>

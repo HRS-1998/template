@@ -1,0 +1,19 @@
+  get{{properCase name}}List: '/api/getList',
+  {{#if (isIncludes table 'edit')}}
+  edit{{properCase name}}: '/api/edit',
+  {{/if}}
+  {{#if (isOr (isIncludes table 'edit') (isIncludes table 'view'))}}
+  get{{properCase name}}Info: '/api/getInfo',
+  {{/if}}
+  {{#if (isIncludes tool 'add')}}
+  add{{properCase name}}: '/api/add',
+  {{/if}}
+  {{#if (isIncludes table 'delete')}}
+  delete{{properCase name}}: '/api/delete',
+  {{/if}}
+  {{#if (isIncludes table 'enable')}}
+  changeStatus{{properCase name}}: '/api/changeStatus',
+  {{/if}}
+  {{#if (isIncludes tool 'export')}}
+  export{{properCase name}}: '/api/export',
+  {{/if}}
